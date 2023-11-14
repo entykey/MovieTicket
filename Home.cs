@@ -1,0 +1,46 @@
+﻿namespace MovieTicket
+{
+    using System;
+    using System.Media;
+    using System.Windows.Forms;
+
+
+    public partial class Home : Form
+    {
+        public Home()
+        {
+            InitializeComponent();
+        }
+
+        private void Home_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBanVe_Click(object sender, EventArgs e)
+        {
+            SoundPlayer splayer = new SoundPlayer(@"C:\Windows\Media\Windows Foreground.wav"); // SoundPlayer splayer = new SoundPlayer(@"C:\Users\jeevan\Desktop\11.wav")
+            splayer.Play();
+
+            if (!panelMain.Controls.Contains(ucBooking.Instance))
+            {
+
+                panelMain.Controls.Add(ucBooking.Instance);
+                ucBooking.Instance.Dock = DockStyle.Fill;
+                ucBooking.Instance.BringToFront();
+            }
+            else
+            {
+                ucBooking.Instance.BringToFront();
+            }
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            SoundPlayer splayer = new SoundPlayer(@"C:\Windows\Media\Windows Foreground.wav"); // SoundPlayer splayer = new SoundPlayer(@"C:\Users\jeevan\Desktop\11.wav")
+            splayer.Play();
+
+            panelMain.Controls.Clear();
+        }
+    }
+}
