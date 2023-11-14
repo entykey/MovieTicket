@@ -189,6 +189,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\Seat.cs" />
     <Compile Include="ucBooking.cs">
       <SubType>UserControl</SubType>
     </Compile>

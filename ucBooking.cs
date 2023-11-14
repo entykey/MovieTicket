@@ -1,7 +1,9 @@
 ﻿namespace MovieTicket
 {
+    using Models;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Forms;
 
 
@@ -20,17 +22,22 @@
         }
 
         private const int Rows = 10;
-        private const int Columns = 10;
+        private const int Columns = 12;
         private const decimal SeatPrice = 45000.0m;
 
         private Button[,] seatButtons = new Button[Rows, Columns];
         private List<Seat> selectedSeats = new List<Seat>();
         private decimal totalPrice = 0.0m;
 
+        // For demonstration purposes, we use a Dictionary to store movie information and booked seats.
+        private Dictionary<string, Movie> movies = new Dictionary<string, Movie>();
+
         public ucBooking()
         {
             InitializeComponent();
             InitializeSeatButtons();
+            LoadMovies();
+            InitializeComboBox();
             //AddHeaders();
         }
 
@@ -90,6 +97,21 @@
         //    }
         //}
 
+        private void LoadMovies()
+        {
+            // For demonstration purposes, we create two sample movies.
+            movies.Add("Movie1", new Movie("Movie 1", Rows, Columns));
+            movies.Add("Movie2", new Movie("Movie 2", Rows, Columns));
+        }
+
+        private void InitializeComboBox()
+        {
+            // Populate the combo box with movie titles
+            cmbMovies.Items.AddRange(movies.Keys.ToArray());
+            cmbMovies.SelectedIndex = 0; // Select the first movie by default
+            UpdateBookedSeats();
+        }
+
         private void SeatButton_Click(object sender, EventArgs e)
         {
             Button seatButton = (Button)sender;
@@ -140,18 +162,37 @@
 
         private void btnBookNow_Click(object sender, EventArgs e)
         {
-            // Mark selected seats as booked
-            foreach (Seat seat in selectedSeats)
+            try
             {
-                seat.ToggleBookingStatus();
-                UpdateSeatButtonAppearance(seatButtons[seat.Row, seat.Column], seat);
+                if (!movies.ContainsKey("Movie1"))
+                {
+                    // Create the movie entry if it doesn't exist
+                    movies["Movie1"] = new Movie("MovieTitle", Rows, Columns);
+                }
+
+                if (selectedSeats.Count > 0)
+                {
+                    // Mark selected seats as booked
+                    foreach (Seat seat in selectedSeats)
+                    {
+                        seat.ToggleBookingStatus();
+                        UpdateSeatButtonAppearance(seatButtons[seat.Row, seat.Column], seat);
+
+                        // Update the movie's booked seats
+                        movies["Movie1"].BookedSeats.Add($"{(char)('A' + seat.Column)}-{seat.Row + 1}");
+                    }
+
+                    // Clear the selected seats
+                    selectedSeats.Clear();
+
+                    // Reset total price
+                    UpdateTotalPrice();
+                }
             }
-
-            // Clear the selected seats
-            selectedSeats.Clear();
-
-            // Reset total price
-            UpdateTotalPrice();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -175,23 +216,42 @@
             seatButton.BackColor = seat.IsBooked ? System.Drawing.Color.Gray : System.Drawing.Color.White;
         }
 
-        public class Seat
+        private void UpdateBookedSeats()
         {
-            public int Row { get; }
-            public int Column { get; }
-            public bool IsBooked { get; private set; }
+            string selectedMovieKey = cmbMovies.SelectedItem.ToString();
 
-            public Seat(int row, int column)
+            if (movies.ContainsKey(selectedMovieKey))
             {
-                Row = row;
-                Column = column;
-                IsBooked = false;
+                // Display the booked seats for the selected movie
+                lblBookedSeats.Text = $"Booked Seats: {string.Join(", ", movies[selectedMovieKey].BookedSeats)}";
+
+                // Update the seat buttons based on the booked seats
+                foreach (Button seatButton in tableLayoutPanel1.Controls)
+                {
+                    Seat seat = (Seat)seatButton.Tag;
+                    bool isBooked = movies[selectedMovieKey].BookedSeats.Contains($"{(char)('A' + seat.Column)}-{seat.Row + 1}");
+                    seat.IsBooked = isBooked;
+                    UpdateSeatButtonAppearance(seatButton, seat);
+                }
             }
-
-            public void ToggleBookingStatus()
+            else
             {
-                IsBooked = !IsBooked;
+                lblBookedSeats.Text = "Booked Seats: N/A";
             }
         }
+
+
+        private void cmbMovies_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            // Update the booked seats display when the selected movie changes
+            UpdateBookedSeats();
+
+            // Clear the selected seats and reset the total price when switching between movies
+            selectedSeats.Clear();
+            UpdateTotalPrice();
+        }
+
+
+        
     }
 }
