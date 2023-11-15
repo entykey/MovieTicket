@@ -5,6 +5,7 @@
 
     public class Movie
     {
+        public string MovieId { get; set; } = Guid.NewGuid().ToString();
         public string Title { get; }
         public int Rows { get; }
         public int Columns { get; }

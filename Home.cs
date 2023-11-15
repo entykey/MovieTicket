@@ -42,5 +42,23 @@
 
             panelMain.Controls.Clear();
         }
+
+        private void btnPhim_Click(object sender, EventArgs e)
+        {
+            SoundPlayer splayer = new SoundPlayer(@"C:\Windows\Media\Windows Foreground.wav"); // SoundPlayer splayer = new SoundPlayer(@"C:\Users\jeevan\Desktop\11.wav")
+            splayer.Play();
+
+            if (!panelMain.Controls.Contains(ucMovies.Instance))
+            {
+
+                panelMain.Controls.Add(ucMovies.Instance);
+                ucMovies.Instance.Dock = DockStyle.Fill;
+                ucMovies.Instance.BringToFront();
+            }
+            else
+            {
+                ucMovies.Instance.BringToFront();
+            }
+        }
     }
 }

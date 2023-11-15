@@ -43,6 +43,7 @@
             this.lblBooked = new System.Windows.Forms.Label();
             this.cmbMovies = new System.Windows.Forms.ComboBox();
             this.lblBookedSeats = new System.Windows.Forms.Label();
+            this.lblCmbMovies = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +52,7 @@
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.23881F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(46, 514);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(46, 492);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -76,14 +77,14 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(46, 382);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1100, 83);
+            this.panel1.Size = new System.Drawing.Size(1100, 72);
             this.panel1.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Bauhaus 93", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(435, 19);
+            this.label1.Location = new System.Drawing.Point(448, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(169, 42);
             this.label1.TabIndex = 0;
@@ -94,7 +95,7 @@
             this.lblTotalPrice.AutoSize = true;
             this.lblTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPrice.ForeColor = System.Drawing.Color.IndianRed;
-            this.lblTotalPrice.Location = new System.Drawing.Point(47, 264);
+            this.lblTotalPrice.Location = new System.Drawing.Point(47, 269);
             this.lblTotalPrice.Name = "lblTotalPrice";
             this.lblTotalPrice.Size = new System.Drawing.Size(191, 37);
             this.lblTotalPrice.TabIndex = 4;
@@ -102,7 +103,7 @@
             // 
             // btnBookNow
             // 
-            this.btnBookNow.Location = new System.Drawing.Point(49, 304);
+            this.btnBookNow.Location = new System.Drawing.Point(49, 309);
             this.btnBookNow.Name = "btnBookNow";
             this.btnBookNow.Size = new System.Drawing.Size(186, 53);
             this.btnBookNow.TabIndex = 5;
@@ -112,7 +113,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(257, 304);
+            this.btnCancel.Location = new System.Drawing.Point(257, 309);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(186, 53);
             this.btnCancel.TabIndex = 6;
@@ -173,27 +174,38 @@
             // 
             // cmbMovies
             // 
+            this.cmbMovies.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbMovies.FormattingEnabled = true;
-            this.cmbMovies.Location = new System.Drawing.Point(285, 181);
+            this.cmbMovies.Location = new System.Drawing.Point(204, 172);
             this.cmbMovies.Name = "cmbMovies";
-            this.cmbMovies.Size = new System.Drawing.Size(289, 33);
+            this.cmbMovies.Size = new System.Drawing.Size(497, 41);
             this.cmbMovies.TabIndex = 11;
-            this.cmbMovies.SelectedIndexChanged += new System.EventHandler(this.cmbMovies_SelectedIndexChanged_1);
+            this.cmbMovies.SelectedIndexChanged += new System.EventHandler(this.cmbMovies_SelectedIndexChanged);
             // 
             // lblBookedSeats
             // 
             this.lblBookedSeats.AutoSize = true;
             this.lblBookedSeats.Location = new System.Drawing.Point(49, 228);
             this.lblBookedSeats.Name = "lblBookedSeats";
-            this.lblBookedSeats.Size = new System.Drawing.Size(149, 25);
+            this.lblBookedSeats.Size = new System.Drawing.Size(205, 25);
             this.lblBookedSeats.TabIndex = 12;
-            this.lblBookedSeats.Text = "Booked seats:";
+            this.lblBookedSeats.Text = "Booked seats (ghế):";
+            // 
+            // lblCmbMovies
+            // 
+            this.lblCmbMovies.AutoSize = true;
+            this.lblCmbMovies.Location = new System.Drawing.Point(49, 184);
+            this.lblCmbMovies.Name = "lblCmbMovies";
+            this.lblCmbMovies.Size = new System.Drawing.Size(121, 25);
+            this.lblCmbMovies.TabIndex = 13;
+            this.lblCmbMovies.Text = "Chọn phim:";
             // 
             // ucBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+            this.Controls.Add(this.lblCmbMovies);
             this.Controls.Add(this.lblBookedSeats);
             this.Controls.Add(this.cmbMovies);
             this.Controls.Add(this.lblBooked);
@@ -236,5 +248,6 @@
         private System.Windows.Forms.Label lblBooked;
         private System.Windows.Forms.ComboBox cmbMovies;
         private System.Windows.Forms.Label lblBookedSeats;
+        private System.Windows.Forms.Label lblCmbMovies;
     }
 }

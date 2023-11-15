@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnDashboard = new System.Windows.Forms.Button();
             this.btnBanVe = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.lblControlName = new System.Windows.Forms.Label();
-            this.btnDashboard = new System.Windows.Forms.Button();
+            this.btnPhim = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -43,6 +44,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panelMenu.Controls.Add(this.btnPhim);
             this.panelMenu.Controls.Add(this.btnDashboard);
             this.panelMenu.Controls.Add(this.btnBanVe);
             this.panelMenu.Controls.Add(this.panelLogo);
@@ -51,6 +53,20 @@
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(316, 947);
             this.panelMenu.TabIndex = 0;
+            // 
+            // btnDashboard
+            // 
+            this.btnDashboard.FlatAppearance.BorderSize = 0;
+            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDashboard.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDashboard.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnDashboard.Location = new System.Drawing.Point(6, 126);
+            this.btnDashboard.Name = "btnDashboard";
+            this.btnDashboard.Size = new System.Drawing.Size(311, 58);
+            this.btnDashboard.TabIndex = 3;
+            this.btnDashboard.Text = "Dashboard";
+            this.btnDashboard.UseVisualStyleBackColor = true;
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
             // btnBanVe
             // 
@@ -108,19 +124,19 @@
             this.lblControlName.TabIndex = 1;
             this.lblControlName.Text = "Dashboard";
             // 
-            // btnDashboard
+            // btnPhim
             // 
-            this.btnDashboard.FlatAppearance.BorderSize = 0;
-            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDashboard.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDashboard.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnDashboard.Location = new System.Drawing.Point(6, 126);
-            this.btnDashboard.Name = "btnDashboard";
-            this.btnDashboard.Size = new System.Drawing.Size(311, 58);
-            this.btnDashboard.TabIndex = 3;
-            this.btnDashboard.Text = "Dashboard";
-            this.btnDashboard.UseVisualStyleBackColor = true;
-            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
+            this.btnPhim.FlatAppearance.BorderSize = 0;
+            this.btnPhim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPhim.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPhim.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnPhim.Location = new System.Drawing.Point(3, 254);
+            this.btnPhim.Name = "btnPhim";
+            this.btnPhim.Size = new System.Drawing.Size(310, 58);
+            this.btnPhim.TabIndex = 4;
+            this.btnPhim.Text = "Phim";
+            this.btnPhim.UseVisualStyleBackColor = true;
+            this.btnPhim.Click += new System.EventHandler(this.btnPhim_Click);
             // 
             // Home
             // 
@@ -150,6 +166,7 @@
         private System.Windows.Forms.Panel panelMain;
         private System.Windows.Forms.Label lblControlName;
         private System.Windows.Forms.Button btnDashboard;
+        private System.Windows.Forms.Button btnPhim;
     }
 }
 

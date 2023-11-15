@@ -1,0 +1,881 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CRVCinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="ShowId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="SeatNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsBooked" Type="bit" />
+          <Property Name="BookingDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FoodDrinks">
+          <Key>
+            <PropertyRef Name="FoodDrinkId" />
+          </Key>
+          <Property Name="FoodDrinkId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Director" Type="nvarchar(max)" />
+          <Property Name="ReleaseDate" Type="datetime2" Precision="7" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="OrderedItems">
+          <Key>
+            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="FoodDrinkId" />
+          </Key>
+          <Property Name="TicketId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="FoodDrinkId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="RoleClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="NormalizedName" Type="nvarchar" MaxLength="256" />
+          <Property Name="ConcurrencyStamp" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Shows">
+          <Key>
+            <PropertyRef Name="ShowId" />
+          </Key>
+          <Property Name="ShowId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="MovieId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="StartTime" Type="datetime2" Precision="7" />
+          <Property Name="EndTime" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="ShowId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SeatNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsBooked" Type="bit" Nullable="false" />
+          <Property Name="DatePrinted" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="UserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderDisplayName" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="450" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="Discriminator" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DateJoined" Type="datetimeoffset" Precision="7" />
+          <Property Name="Country" Type="nvarchar(max)" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Birthday" Type="datetime2" Precision="7" />
+          <Property Name="TimeZone" Type="nvarchar" MaxLength="100" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="100" />
+          <Property Name="University" Type="nvarchar" MaxLength="100" />
+          <Property Name="RefreshToken" Type="nvarchar" MaxLength="260" />
+          <Property Name="RefreshTokenExpiryTime" Type="datetime2" Precision="7" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" />
+          <Property Name="NormalizedUserName" Type="nvarchar" MaxLength="256" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="NormalizedEmail" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="ConcurrencyStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEnd" Type="datetimeoffset" Precision="7" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTokens">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Bookings_Shows_ShowId">
+          <End Role="Shows" Type="Self.Shows" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shows">
+              <PropertyRef Name="ShowId" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="ShowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderedItems_FoodDrinks_FoodDrinkId">
+          <End Role="FoodDrinks" Type="Self.FoodDrinks" Multiplicity="1" />
+          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodDrinks">
+              <PropertyRef Name="FoodDrinkId" />
+            </Principal>
+            <Dependent Role="OrderedItems">
+              <PropertyRef Name="FoodDrinkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderedItems_Tickets_TicketId">
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="1" />
+          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="OrderedItems">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleClaims_Roles_RoleId">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoleClaims" Type="Self.RoleClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoleClaims">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shows_Movies_MovieId">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Shows" Type="Self.Shows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="Shows">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserClaims_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserClaims" Type="Self.UserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserLogins_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserLogins" Type="Self.UserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Roles_RoleId">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTokens_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserTokens" Type="Self.UserTokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CRVCinemaModelStoreContainer">
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodDrinks" EntityType="Self.FoodDrinks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderedItems" EntityType="Self.OrderedItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleClaims" EntityType="Self.RoleClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shows" EntityType="Self.Shows" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserClaims" EntityType="Self.UserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLogins" EntityType="Self.UserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTokens" EntityType="Self.UserTokens" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bookings_Shows_ShowId" Association="Self.FK_Bookings_Shows_ShowId">
+            <End Role="Shows" EntitySet="Shows" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderedItems_FoodDrinks_FoodDrinkId" Association="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId">
+            <End Role="FoodDrinks" EntitySet="FoodDrinks" />
+            <End Role="OrderedItems" EntitySet="OrderedItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderedItems_Tickets_TicketId" Association="Self.FK_OrderedItems_Tickets_TicketId">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="OrderedItems" EntitySet="OrderedItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleClaims_Roles_RoleId" Association="Self.FK_RoleClaims_Roles_RoleId">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleClaims" EntitySet="RoleClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shows_Movies_MovieId" Association="Self.FK_Shows_Movies_MovieId">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="Shows" EntitySet="Shows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserClaims_Users_UserId" Association="Self.FK_UserClaims_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserClaims" EntitySet="UserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLogins_Users_UserId" Association="Self.FK_UserLogins_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserLogins" EntitySet="UserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Roles_RoleId" Association="Self.FK_UserRoles_Roles_RoleId">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Users_UserId" Association="Self.FK_UserRoles_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTokens_Users_UserId" Association="Self.FK_UserTokens_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserTokens" EntitySet="UserTokens" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CRVCinemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShowId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SeatNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsBooked" Type="Boolean" />
+          <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Shows" Relationship="Self.FK_Bookings_Shows_ShowId" FromRole="Bookings" ToRole="Shows" />
+        </EntityType>
+        <EntityType Name="FoodDrinks">
+          <Key>
+            <PropertyRef Name="FoodDrinkId" />
+          </Key>
+          <Property Name="FoodDrinkId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="OrderedItems" Relationship="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId" FromRole="FoodDrinks" ToRole="OrderedItems" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Director" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReleaseDate" Type="DateTime" Precision="7" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Shows" Relationship="Self.FK_Shows_Movies_MovieId" FromRole="Movies" ToRole="Shows" />
+        </EntityType>
+        <EntityType Name="OrderedItems">
+          <Key>
+            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="FoodDrinkId" />
+          </Key>
+          <Property Name="TicketId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FoodDrinkId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="FoodDrinks" Relationship="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId" FromRole="OrderedItems" ToRole="FoodDrinks" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK_OrderedItems_Tickets_TicketId" FromRole="OrderedItems" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="RoleClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_RoleClaims_Roles_RoleId" FromRole="RoleClaims" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NormalizedName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ConcurrencyStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RoleClaims" Relationship="Self.FK_RoleClaims_Roles_RoleId" FromRole="Roles" ToRole="RoleClaims" />
+          <NavigationProperty Name="Users" Relationship="Self.UserRoles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Shows">
+          <Key>
+            <PropertyRef Name="ShowId" />
+          </Key>
+          <Property Name="ShowId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MovieId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Precision="7" />
+          <Property Name="EndTime" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_Shows_ShowId" FromRole="Shows" ToRole="Bookings" />
+          <NavigationProperty Name="Movies" Relationship="Self.FK_Shows_Movies_MovieId" FromRole="Shows" ToRole="Movies" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShowId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SeatNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsBooked" Type="Boolean" Nullable="false" />
+          <Property Name="DatePrinted" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="OrderedItems" Relationship="Self.FK_OrderedItems_Tickets_TicketId" FromRole="Tickets" ToRole="OrderedItems" />
+        </EntityType>
+        <EntityType Name="UserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_UserClaims_Users_UserId" FromRole="UserClaims" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderDisplayName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_UserLogins_Users_UserId" FromRole="UserLogins" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Discriminator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateJoined" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="7" />
+          <Property Name="TimeZone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="University" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RefreshToken" Type="String" MaxLength="260" FixedLength="false" Unicode="true" />
+          <Property Name="RefreshTokenExpiryTime" Type="DateTime" Precision="7" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NormalizedUserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NormalizedEmail" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ConcurrencyStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEnd" Type="DateTimeOffset" Precision="7" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserClaims" Relationship="Self.FK_UserClaims_Users_UserId" FromRole="Users" ToRole="UserClaims" />
+          <NavigationProperty Name="UserLogins" Relationship="Self.FK_UserLogins_Users_UserId" FromRole="Users" ToRole="UserLogins" />
+          <NavigationProperty Name="UserTokens" Relationship="Self.FK_UserTokens_Users_UserId" FromRole="Users" ToRole="UserTokens" />
+          <NavigationProperty Name="Roles" Relationship="Self.UserRoles" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="UserTokens">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_UserTokens_Users_UserId" FromRole="UserTokens" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Bookings_Shows_ShowId">
+          <End Role="Shows" Type="Self.Shows" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shows">
+              <PropertyRef Name="ShowId" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="ShowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderedItems_FoodDrinks_FoodDrinkId">
+          <End Role="FoodDrinks" Type="Self.FoodDrinks" Multiplicity="1" />
+          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodDrinks">
+              <PropertyRef Name="FoodDrinkId" />
+            </Principal>
+            <Dependent Role="OrderedItems">
+              <PropertyRef Name="FoodDrinkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shows_Movies_MovieId">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Shows" Type="Self.Shows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="Shows">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderedItems_Tickets_TicketId">
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="1" />
+          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="OrderedItems">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleClaims_Roles_RoleId">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoleClaims" Type="Self.RoleClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoleClaims">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserClaims_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserClaims" Type="Self.UserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserLogins_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserLogins" Type="Self.UserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTokens_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserTokens" Type="Self.UserTokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserTokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserRoles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CRVCinemaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" />
+          <EntitySet Name="FoodDrinks" EntityType="Self.FoodDrinks" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" />
+          <EntitySet Name="OrderedItems" EntityType="Self.OrderedItems" />
+          <EntitySet Name="RoleClaims" EntityType="Self.RoleClaims" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Shows" EntityType="Self.Shows" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" />
+          <EntitySet Name="UserClaims" EntityType="Self.UserClaims" />
+          <EntitySet Name="UserLogins" EntityType="Self.UserLogins" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="UserTokens" EntityType="Self.UserTokens" />
+          <AssociationSet Name="FK_Bookings_Shows_ShowId" Association="Self.FK_Bookings_Shows_ShowId">
+            <End Role="Shows" EntitySet="Shows" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderedItems_FoodDrinks_FoodDrinkId" Association="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId">
+            <End Role="FoodDrinks" EntitySet="FoodDrinks" />
+            <End Role="OrderedItems" EntitySet="OrderedItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shows_Movies_MovieId" Association="Self.FK_Shows_Movies_MovieId">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="Shows" EntitySet="Shows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderedItems_Tickets_TicketId" Association="Self.FK_OrderedItems_Tickets_TicketId">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="OrderedItems" EntitySet="OrderedItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleClaims_Roles_RoleId" Association="Self.FK_RoleClaims_Roles_RoleId">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleClaims" EntitySet="RoleClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserClaims_Users_UserId" Association="Self.FK_UserClaims_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserClaims" EntitySet="UserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLogins_Users_UserId" Association="Self.FK_UserLogins_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserLogins" EntitySet="UserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTokens_Users_UserId" Association="Self.FK_UserTokens_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserTokens" EntitySet="UserTokens" />
+          </AssociationSet>
+          <AssociationSet Name="UserRoles" Association="Self.UserRoles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CRVCinemaModelStoreContainer" CdmEntityContainer="CRVCinemaEntities">
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="CRVCinemaModel.Bookings">
+              <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="ShowId" ColumnName="ShowId" />
+                <ScalarProperty Name="SeatNumber" ColumnName="SeatNumber" />
+                <ScalarProperty Name="IsBooked" ColumnName="IsBooked" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodDrinks">
+            <EntityTypeMapping TypeName="CRVCinemaModel.FoodDrinks">
+              <MappingFragment StoreEntitySet="FoodDrinks">
+                <ScalarProperty Name="FoodDrinkId" ColumnName="FoodDrinkId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="CRVCinemaModel.Movies">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Director" ColumnName="Director" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderedItems">
+            <EntityTypeMapping TypeName="CRVCinemaModel.OrderedItems">
+              <MappingFragment StoreEntitySet="OrderedItems">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="FoodDrinkId" ColumnName="FoodDrinkId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleClaims">
+            <EntityTypeMapping TypeName="CRVCinemaModel.RoleClaims">
+              <MappingFragment StoreEntitySet="RoleClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="CRVCinemaModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NormalizedName" ColumnName="NormalizedName" />
+                <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shows">
+            <EntityTypeMapping TypeName="CRVCinemaModel.Shows">
+              <MappingFragment StoreEntitySet="Shows">
+                <ScalarProperty Name="ShowId" ColumnName="ShowId" />
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CRVCinemaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="CRVCinemaModel.Tickets">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="ShowId" ColumnName="ShowId" />
+                <ScalarProperty Name="SeatNumber" ColumnName="SeatNumber" />
+                <ScalarProperty Name="IsBooked" ColumnName="IsBooked" />
+                <ScalarProperty Name="DatePrinted" ColumnName="DatePrinted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserClaims">
+            <EntityTypeMapping TypeName="CRVCinemaModel.UserClaims">
+              <MappingFragment StoreEntitySet="UserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogins">
+            <EntityTypeMapping TypeName="CRVCinemaModel.UserLogins">
+              <MappingFragment StoreEntitySet="UserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="ProviderDisplayName" ColumnName="ProviderDisplayName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CRVCinemaModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DateJoined" ColumnName="DateJoined" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="University" ColumnName="University" />
+                <ScalarProperty Name="RefreshToken" ColumnName="RefreshToken" />
+                <ScalarProperty Name="RefreshTokenExpiryTime" ColumnName="RefreshTokenExpiryTime" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="NormalizedUserName" ColumnName="NormalizedUserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NormalizedEmail" ColumnName="NormalizedEmail" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEnd" ColumnName="LockoutEnd" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTokens">
+            <EntityTypeMapping TypeName="CRVCinemaModel.UserTokens">
+              <MappingFragment StoreEntitySet="UserTokens">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserRoles" TypeName="CRVCinemaModel.UserRoles" StoreEntitySet="UserRoles">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

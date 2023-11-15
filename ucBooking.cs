@@ -31,6 +31,7 @@
 
         // For demonstration purposes, we use a Dictionary to store movie information and booked seats.
         private Dictionary<string, Movie> movies = new Dictionary<string, Movie>();
+        private Dictionary<string, List<string>> bookedSeatsByMovie = new Dictionary<string, List<string>>();
 
         public ucBooking()
         {
@@ -38,7 +39,7 @@
             InitializeSeatButtons();
             LoadMovies();
             InitializeComboBox();
-            //AddHeaders();
+            //lblControlName.Text += DateTime.Now.ToString();
         }
 
         private void ucBooking_Load(object sender, EventArgs e)
@@ -64,6 +65,7 @@
                     };
 
                     seatButton.Click += SeatButton_Click;
+                    seatButton.MouseDown += SeatButton_MouseDown;
 
                     tableLayoutPanel1.Controls.Add(seatButton, col, row);
                     seatButtons[row, col] = seatButton;
@@ -71,37 +73,18 @@
             }
         }
 
-        //private void AddHeaders()
-        //{
-        //    for (int col = 0; col < Columns; col++)
-        //    {
-        //        char columnHeader = (char)('A' + col);
-        //        Label columnLabel = new Label
-        //        {
-        //            Text = columnHeader.ToString(),
-        //            TextAlign = ContentAlignment.MiddleCenter,
-        //            Dock = DockStyle.Fill
-        //        };
-        //        tableLayoutPanel1.Controls.Add(columnLabel, col, Rows);
-        //    }
-
-        //    for (int row = 0; row < Rows; row++)
-        //    {
-        //        Label rowLabel = new Label
-        //        {
-        //            Text = (row + 1).ToString(),
-        //            TextAlign = ContentAlignment.MiddleCenter,
-        //            Dock = DockStyle.Fill
-        //        };
-        //        tableLayoutPanel1.Controls.Add(rowLabel, Columns, row);
-        //    }
-        //}
-
+        // fake data for Movie dbset
         private void LoadMovies()
         {
             // For demonstration purposes, we create two sample movies.
             movies.Add("Movie1", new Movie("Movie 1", Rows, Columns));
             movies.Add("Movie2", new Movie("Movie 2", Rows, Columns));
+
+            // Initialize booked seats dictionary for each movie
+            foreach (var movie in movies.Keys)
+            {
+                bookedSeatsByMovie[movie] = new List<string>();
+            }
         }
 
         private void InitializeComboBox()
@@ -164,22 +147,21 @@
         {
             try
             {
-                if (!movies.ContainsKey("Movie1"))
-                {
-                    // Create the movie entry if it doesn't exist
-                    movies["Movie1"] = new Movie("MovieTitle", Rows, Columns);
-                }
+                string selectedMovieKey = cmbMovies.SelectedItem.ToString();
 
                 if (selectedSeats.Count > 0)
                 {
-                    // Mark selected seats as booked
+                    // Mark selected seats as booked for the selected movie
                     foreach (Seat seat in selectedSeats)
                     {
                         seat.ToggleBookingStatus();
                         UpdateSeatButtonAppearance(seatButtons[seat.Row, seat.Column], seat);
 
-                        // Update the movie's booked seats
-                        movies["Movie1"].BookedSeats.Add($"{(char)('A' + seat.Column)}-{seat.Row + 1}");
+                        string seatId = $"{(char)('A' + seat.Column)}-{seat.Row + 1}";
+                        if (!bookedSeatsByMovie[selectedMovieKey].Contains(seatId))
+                        {
+                            bookedSeatsByMovie[selectedMovieKey].Add(seatId);
+                        }
                     }
 
                     // Clear the selected seats
@@ -187,6 +169,9 @@
 
                     // Reset total price
                     UpdateTotalPrice();
+
+                    // Update the combo box to reflect the changes
+                    UpdateBookedSeats();
                 }
             }
             catch (Exception ex)
@@ -220,28 +205,27 @@
         {
             string selectedMovieKey = cmbMovies.SelectedItem.ToString();
 
-            if (movies.ContainsKey(selectedMovieKey))
+            if (bookedSeatsByMovie.ContainsKey(selectedMovieKey))
             {
                 // Display the booked seats for the selected movie
-                lblBookedSeats.Text = $"Booked Seats: {string.Join(", ", movies[selectedMovieKey].BookedSeats)}";
+                lblBookedSeats.Text = $"Booked Seats (ghế): {string.Join(", ", bookedSeatsByMovie[selectedMovieKey])}";
 
-                // Update the seat buttons based on the booked seats
+                // Update the seat buttons based on the booked seats for the selected movie
                 foreach (Button seatButton in tableLayoutPanel1.Controls)
                 {
                     Seat seat = (Seat)seatButton.Tag;
-                    bool isBooked = movies[selectedMovieKey].BookedSeats.Contains($"{(char)('A' + seat.Column)}-{seat.Row + 1}");
+                    bool isBooked = bookedSeatsByMovie[selectedMovieKey].Contains($"{(char)('A' + seat.Column)}-{seat.Row + 1}");
                     seat.IsBooked = isBooked;
                     UpdateSeatButtonAppearance(seatButton, seat);
                 }
             }
             else
             {
-                lblBookedSeats.Text = "Booked Seats: N/A";
+                lblBookedSeats.Text = "Booked Seats (ghế): N/A";
             }
         }
 
-
-        private void cmbMovies_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void cmbMovies_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Update the booked seats display when the selected movie changes
             UpdateBookedSeats();
@@ -250,8 +234,5 @@
             selectedSeats.Clear();
             UpdateTotalPrice();
         }
-
-
-        
     }
 }

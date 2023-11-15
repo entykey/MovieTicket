@@ -34,6 +34,7 @@
             this.lblPassword = new System.Windows.Forms.Label();
             this.lblLogo = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
+            this.lblAnyCreds = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -97,12 +98,23 @@
             this.txtPassword.TabIndex = 6;
             this.txtPassword.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
+            // lblAnyCreds
+            // 
+            this.lblAnyCreds.AutoSize = true;
+            this.lblAnyCreds.ForeColor = System.Drawing.Color.White;
+            this.lblAnyCreds.Location = new System.Drawing.Point(328, 426);
+            this.lblAnyCreds.Name = "lblAnyCreds";
+            this.lblAnyCreds.Size = new System.Drawing.Size(345, 25);
+            this.lblAnyCreds.TabIndex = 7;
+            this.lblAnyCreds.Text = "In development, Just press login !!!";
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.ClientSize = new System.Drawing.Size(953, 553);
+            this.Controls.Add(this.lblAnyCreds);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lblLogo);
             this.Controls.Add(this.lblPassword);
@@ -125,5 +137,6 @@
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Label lblLogo;
         private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label lblAnyCreds;
     }
 }

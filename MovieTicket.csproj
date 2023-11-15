@@ -131,6 +131,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
@@ -189,6 +190,66 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EFModels\Bookings.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\DbModels.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModels.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\DbModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\DbModels.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbModels.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\FoodDrinks.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\Movies.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\OrderedItems.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\RoleClaims.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\Roles.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\Shows.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\sysdiagrams.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\Tickets.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\UserClaims.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\UserLogins.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\Users.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFModels\UserTokens.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ucMovies.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucMovies.Designer.cs">
+      <DependentUpon>ucMovies.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Seat.cs" />
     <Compile Include="ucBooking.cs">
@@ -212,6 +273,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ucMovies.resx">
+      <DependentUpon>ucMovies.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ucBooking.resx">
       <DependentUpon>ucBooking.cs</DependentUpon>
     </EmbeddedResource>
@@ -230,6 +294,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EntityDeploy Include="EFModels\DbModels.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DbModels.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EFModels\DbModels.edmx.diagram">
+      <DependentUpon>DbModels.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -243,6 +314,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EFModels\DbModels.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbModels.edmx</DependentUpon>
+      <LastGenOutput>DbModels.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EFModels\DbModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbModels.edmx</DependentUpon>
+      <LastGenOutput>DbModels.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
