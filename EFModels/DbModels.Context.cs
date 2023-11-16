@@ -9,11 +9,13 @@
 
 namespace MovieTicket.EFModels
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class CRVCinemaEntities : DbContext
+    public partial class CRVCinemaEntities : DbContext // DbContext
     {
         public CRVCinemaEntities()
             : base("name=CRVCinemaEntities")
