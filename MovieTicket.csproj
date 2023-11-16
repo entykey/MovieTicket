@@ -282,7 +282,6 @@
     <Compile Include="EFModels\UserTokens.cs">
       <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\User.cs" />
     <Compile Include="ucMovies.cs">
       <SubType>UserControl</SubType>
     </Compile>

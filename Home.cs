@@ -1,6 +1,7 @@
 ﻿namespace MovieTicket
 {
     using System;
+    using System.Drawing;
     using System.Media;
     using System.Windows.Forms;
 
@@ -14,10 +15,9 @@
 
         private void Home_Load(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Maximized;
-            this.Location = new Point(0, 0);
-            this.Size = Screen.PrimaryScreen.WorkingArea.Size;
-            Screen.PrimaryScreen.WorkingArea
+            this.Size = new Size(920, 660);
+            SoundPlayer splayer = new SoundPlayer(@"C:\Windows\Media\Windows Logon.wav");
+            splayer.Play();
         }
 
         private void btnBanVe_Click(object sender, EventArgs e)
