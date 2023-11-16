@@ -63,11 +63,11 @@
             // dataGv
             // 
             this.dataGv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGv.Location = new System.Drawing.Point(49, 424);
+            this.dataGv.Location = new System.Drawing.Point(49, 429);
             this.dataGv.Name = "dataGv";
             this.dataGv.RowHeadersWidth = 82;
             this.dataGv.RowTemplate.Height = 33;
-            this.dataGv.Size = new System.Drawing.Size(1193, 414);
+            this.dataGv.Size = new System.Drawing.Size(1193, 423);
             this.dataGv.TabIndex = 10;
             this.dataGv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGv_CellClick);
             // 
@@ -86,7 +86,7 @@
             this.txtTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTitle.Location = new System.Drawing.Point(200, 233);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(225, 38);
+            this.txtTitle.Size = new System.Drawing.Size(398, 38);
             this.txtTitle.TabIndex = 12;
             // 
             // txtDirector
@@ -94,7 +94,7 @@
             this.txtDirector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDirector.Location = new System.Drawing.Point(200, 277);
             this.txtDirector.Name = "txtDirector";
-            this.txtDirector.Size = new System.Drawing.Size(225, 38);
+            this.txtDirector.Size = new System.Drawing.Size(398, 38);
             this.txtDirector.TabIndex = 13;
             // 
             // lblTitle
@@ -129,7 +129,7 @@
             this.dtpReleaseDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpReleaseDate.Location = new System.Drawing.Point(200, 321);
             this.dtpReleaseDate.Name = "dtpReleaseDate";
-            this.dtpReleaseDate.Size = new System.Drawing.Size(225, 38);
+            this.dtpReleaseDate.Size = new System.Drawing.Size(398, 38);
             this.dtpReleaseDate.TabIndex = 18;
             // 
             // lblDesc
@@ -146,7 +146,7 @@
             this.txtDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDescription.Location = new System.Drawing.Point(200, 365);
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(225, 38);
+            this.txtDescription.Size = new System.Drawing.Size(398, 38);
             this.txtDescription.TabIndex = 19;
             // 
             // btnAddMovie
@@ -184,7 +184,7 @@
             this.txtMovieId.Location = new System.Drawing.Point(200, 189);
             this.txtMovieId.Name = "txtMovieId";
             this.txtMovieId.ReadOnly = true;
-            this.txtMovieId.Size = new System.Drawing.Size(225, 38);
+            this.txtMovieId.Size = new System.Drawing.Size(398, 38);
             this.txtMovieId.TabIndex = 23;
             // 
             // btnCancelSelection

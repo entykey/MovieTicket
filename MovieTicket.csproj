@@ -311,6 +311,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ucShows.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucShows.Designer.cs">
+      <DependentUpon>ucShows.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ucMovies.resx">
       <DependentUpon>ucMovies.cs</DependentUpon>
     </EmbeddedResource>
@@ -332,6 +338,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ucShows.resx">
+      <DependentUpon>ucShows.cs</DependentUpon>
+    </EmbeddedResource>
     <EntityDeploy Include="EFModels\DbModels.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DbModels.Designer.cs</LastGenOutput>

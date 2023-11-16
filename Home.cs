@@ -63,5 +63,23 @@
                 ucMovies.Instance.BringToFront();
             }
         }
+
+        private void btnShows_Click(object sender, EventArgs e)
+        {
+            SoundPlayer splayer = new SoundPlayer(@"C:\Windows\Media\Windows Foreground.wav"); // SoundPlayer splayer = new SoundPlayer(@"C:\Users\jeevan\Desktop\11.wav")
+            splayer.Play();
+
+            if (!panelMain.Controls.Contains(ucShows.Instance))
+            {
+
+                panelMain.Controls.Add(ucShows.Instance);
+                ucShows.Instance.Dock = DockStyle.Fill;
+                ucShows.Instance.BringToFront();
+            }
+            else
+            {
+                ucShows.Instance.BringToFront();
+            }
+        }
     }
 }

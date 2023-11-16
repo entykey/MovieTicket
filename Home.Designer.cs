@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnPhim = new System.Windows.Forms.Button();
             this.btnDashboard = new System.Windows.Forms.Button();
             this.btnBanVe = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.lblControlName = new System.Windows.Forms.Label();
-            this.btnPhim = new System.Windows.Forms.Button();
+            this.btnShows = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -44,6 +45,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panelMenu.Controls.Add(this.btnShows);
             this.panelMenu.Controls.Add(this.btnPhim);
             this.panelMenu.Controls.Add(this.btnDashboard);
             this.panelMenu.Controls.Add(this.btnBanVe);
@@ -53,6 +55,20 @@
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(316, 947);
             this.panelMenu.TabIndex = 0;
+            // 
+            // btnPhim
+            // 
+            this.btnPhim.FlatAppearance.BorderSize = 0;
+            this.btnPhim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPhim.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPhim.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnPhim.Location = new System.Drawing.Point(3, 254);
+            this.btnPhim.Name = "btnPhim";
+            this.btnPhim.Size = new System.Drawing.Size(310, 58);
+            this.btnPhim.TabIndex = 4;
+            this.btnPhim.Text = "Phim";
+            this.btnPhim.UseVisualStyleBackColor = true;
+            this.btnPhim.Click += new System.EventHandler(this.btnPhim_Click);
             // 
             // btnDashboard
             // 
@@ -124,19 +140,19 @@
             this.lblControlName.TabIndex = 1;
             this.lblControlName.Text = "Dashboard";
             // 
-            // btnPhim
+            // btnShows
             // 
-            this.btnPhim.FlatAppearance.BorderSize = 0;
-            this.btnPhim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPhim.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPhim.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnPhim.Location = new System.Drawing.Point(3, 254);
-            this.btnPhim.Name = "btnPhim";
-            this.btnPhim.Size = new System.Drawing.Size(310, 58);
-            this.btnPhim.TabIndex = 4;
-            this.btnPhim.Text = "Phim";
-            this.btnPhim.UseVisualStyleBackColor = true;
-            this.btnPhim.Click += new System.EventHandler(this.btnPhim_Click);
+            this.btnShows.FlatAppearance.BorderSize = 0;
+            this.btnShows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShows.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnShows.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnShows.Location = new System.Drawing.Point(0, 318);
+            this.btnShows.Name = "btnShows";
+            this.btnShows.Size = new System.Drawing.Size(310, 58);
+            this.btnShows.TabIndex = 5;
+            this.btnShows.Text = "Ca chiếu";
+            this.btnShows.UseVisualStyleBackColor = true;
+            this.btnShows.Click += new System.EventHandler(this.btnShows_Click);
             // 
             // Home
             // 
@@ -167,6 +183,7 @@
         private System.Windows.Forms.Label lblControlName;
         private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.Button btnPhim;
+        private System.Windows.Forms.Button btnShows;
     }
 }
 
