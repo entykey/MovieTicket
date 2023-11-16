@@ -86,6 +86,5 @@
             //// Close the application when the dashboard form is closed
             //Application.Exit();
         }
-
     }
 }

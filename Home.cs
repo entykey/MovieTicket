@@ -14,7 +14,10 @@
 
         private void Home_Load(object sender, EventArgs e)
         {
-
+            this.WindowState = FormWindowState.Maximized;
+            this.Location = new Point(0, 0);
+            this.Size = Screen.PrimaryScreen.WorkingArea.Size;
+            Screen.PrimaryScreen.WorkingArea
         }
 
         private void btnBanVe_Click(object sender, EventArgs e)

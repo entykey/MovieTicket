@@ -103,9 +103,9 @@
             this.lblAnyCreds.ForeColor = System.Drawing.Color.White;
             this.lblAnyCreds.Location = new System.Drawing.Point(328, 426);
             this.lblAnyCreds.Name = "lblAnyCreds";
-            this.lblAnyCreds.Size = new System.Drawing.Size(345, 25);
+            this.lblAnyCreds.Size = new System.Drawing.Size(304, 25);
             this.lblAnyCreds.TabIndex = 7;
-            this.lblAnyCreds.Text = "In development, Just press login !!!";
+            this.lblAnyCreds.Text = "default: admin, pwd: Abc@123";
             // 
             // frmLogin
             // 
