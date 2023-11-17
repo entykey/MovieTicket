@@ -122,7 +122,7 @@
             if (selectedMovie != null)
             {
                 txtMovieId.Text = selectedMovie.MovieId;
-                txtMovieTitle.Text = selectedMovie.MovieTitle;
+                txtMovieTitle.Text = selectedMovie.Title;
             }
         }
         private void dataGv_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -191,6 +191,11 @@
             dtpEndTime.Value = DateTime.Now;
             btnUpdateShow.Enabled = false;
             btnDeleteShow.Enabled = false;
+        }
+
+        private void ucShows_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
