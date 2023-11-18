@@ -231,6 +231,9 @@
     <Compile Include="EFModels\Bookings.cs">
       <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="EFModels\C__EFMigrationsHistory.cs">
+      <DependentUpon>DbModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="EFModels\DbModels.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
