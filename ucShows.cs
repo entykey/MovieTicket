@@ -76,6 +76,27 @@
 
             dataGv.DataSource = showsData.ToList();
         }
+        public async Task BindDataShowsToDataGvByMovieId(string movieId)
+        {
+            var result = await dbContext.Shows
+                .Include(s => s.Movies) // Include the Movie navigation property
+                .Where(s => s.MovieId == movieId)
+                .ToListAsync();
+
+            // Create a new anonymous type to represent the data you want to display
+            var showsData = result.Select(s => new
+            {
+                s.ShowId,
+                s.MovieId,
+                MovieName = s.Movies.Title, // Access the Title property of the related Movie
+                s.StartTime,
+                s.EndTime,
+                //s.SeatPrice
+                // Add other properties as needed
+            });
+
+            dataGv.DataSource = showsData.ToList();
+        }
         public async Task AddShow()
         {
             dbContext.Shows.Add(new Shows() { ShowId = Guid.NewGuid().ToString(), MovieId = txtMovieId.Text, StartTime = dtpStartTime.Value, EndTime = dtpEndTime.Value });
@@ -123,6 +144,9 @@
             {
                 txtMovieId.Text = selectedMovie.MovieId;
                 txtMovieTitle.Text = selectedMovie.Title;
+
+                // Fetch shows based on the selected movie's MovieId
+                await BindDataShowsToDataGvByMovieId(txtMovieId.Text);
             }
         }
         private void dataGv_CellClick(object sender, DataGridViewCellEventArgs e)
