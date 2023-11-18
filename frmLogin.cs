@@ -86,5 +86,20 @@
             //// Close the application when the dashboard form is closed
             //Application.Exit();
         }
+
+        private void btnLogin_Enter(object sender, EventArgs e)
+        {
+        }
+
+        private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // Prevent the system beep sound when Enter is pressed
+                e.Handled = true;
+
+                btnLogin_Click(sender, e);
+            }
+        }
     }
 }

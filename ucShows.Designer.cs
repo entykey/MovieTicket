@@ -65,7 +65,7 @@
             // btnUpdateShow
             // 
             this.btnUpdateShow.Location = new System.Drawing.Point(245, 60);
-            this.btnUpdateShow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnUpdateShow.Margin = new System.Windows.Forms.Padding(2);
             this.btnUpdateShow.Name = "btnUpdateShow";
             this.btnUpdateShow.Size = new System.Drawing.Size(101, 40);
             this.btnUpdateShow.TabIndex = 42;
@@ -76,7 +76,7 @@
             // btnCancelSelection
             // 
             this.btnCancelSelection.Location = new System.Drawing.Point(453, 60);
-            this.btnCancelSelection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCancelSelection.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancelSelection.Name = "btnCancelSelection";
             this.btnCancelSelection.Size = new System.Drawing.Size(132, 40);
             this.btnCancelSelection.TabIndex = 41;
@@ -98,7 +98,7 @@
             // 
             this.txtShowId.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtShowId.Location = new System.Drawing.Point(158, 148);
-            this.txtShowId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtShowId.Margin = new System.Windows.Forms.Padding(2);
             this.txtShowId.Name = "txtShowId";
             this.txtShowId.ReadOnly = true;
             this.txtShowId.Size = new System.Drawing.Size(271, 27);
@@ -107,7 +107,7 @@
             // btnDeleteShow
             // 
             this.btnDeleteShow.Location = new System.Drawing.Point(348, 60);
-            this.btnDeleteShow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeleteShow.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteShow.Name = "btnDeleteShow";
             this.btnDeleteShow.Size = new System.Drawing.Size(101, 40);
             this.btnDeleteShow.TabIndex = 38;
@@ -118,7 +118,7 @@
             // btnAddShow
             // 
             this.btnAddShow.Location = new System.Drawing.Point(140, 60);
-            this.btnAddShow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddShow.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddShow.Name = "btnAddShow";
             this.btnAddShow.Size = new System.Drawing.Size(101, 40);
             this.btnAddShow.TabIndex = 37;
@@ -130,10 +130,11 @@
             // 
             this.dtpStartTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpStartTime.Location = new System.Drawing.Point(158, 205);
-            this.dtpStartTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpStartTime.Margin = new System.Windows.Forms.Padding(2);
             this.dtpStartTime.Name = "dtpStartTime";
             this.dtpStartTime.Size = new System.Drawing.Size(271, 27);
             this.dtpStartTime.TabIndex = 34;
+            this.dtpStartTime.ValueChanged += new System.EventHandler(this.dtpStartTime_ValueChanged);
             // 
             // lblStartTime
             // 
@@ -159,15 +160,16 @@
             // 
             this.txtMovieId.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMovieId.Location = new System.Drawing.Point(158, 177);
-            this.txtMovieId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMovieId.Margin = new System.Windows.Forms.Padding(2);
             this.txtMovieId.Name = "txtMovieId";
+            this.txtMovieId.ReadOnly = true;
             this.txtMovieId.Size = new System.Drawing.Size(271, 27);
             this.txtMovieId.TabIndex = 29;
             // 
             // btnFetchData
             // 
             this.btnFetchData.Location = new System.Drawing.Point(35, 60);
-            this.btnFetchData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnFetchData.Margin = new System.Windows.Forms.Padding(2);
             this.btnFetchData.Name = "btnFetchData";
             this.btnFetchData.Size = new System.Drawing.Size(101, 40);
             this.btnFetchData.TabIndex = 28;
@@ -179,19 +181,22 @@
             // 
             this.dataGv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGv.Location = new System.Drawing.Point(35, 271);
-            this.dataGv.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGv.Margin = new System.Windows.Forms.Padding(2);
             this.dataGv.Name = "dataGv";
+            this.dataGv.ReadOnly = true;
             this.dataGv.RowHeadersWidth = 82;
             this.dataGv.RowTemplate.Height = 33;
+            this.dataGv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGv.Size = new System.Drawing.Size(795, 271);
             this.dataGv.TabIndex = 27;
             this.dataGv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGv_CellClick);
             // 
             // dtpEndTime
             // 
+            this.dtpEndTime.Enabled = false;
             this.dtpEndTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpEndTime.Location = new System.Drawing.Point(158, 233);
-            this.dtpEndTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpEndTime.Margin = new System.Windows.Forms.Padding(2);
             this.dtpEndTime.Name = "dtpEndTime";
             this.dtpEndTime.Size = new System.Drawing.Size(271, 27);
             this.dtpEndTime.TabIndex = 44;
@@ -218,10 +223,11 @@
             // 
             // cboMovieName
             // 
+            this.cboMovieName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMovieName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboMovieName.FormattingEnabled = true;
             this.cboMovieName.Location = new System.Drawing.Point(158, 118);
-            this.cboMovieName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cboMovieName.Margin = new System.Windows.Forms.Padding(2);
             this.cboMovieName.Name = "cboMovieName";
             this.cboMovieName.Size = new System.Drawing.Size(271, 28);
             this.cboMovieName.TabIndex = 46;
@@ -241,8 +247,9 @@
             // 
             this.txtMovieTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMovieTitle.Location = new System.Drawing.Point(517, 177);
-            this.txtMovieTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMovieTitle.Margin = new System.Windows.Forms.Padding(2);
             this.txtMovieTitle.Name = "txtMovieTitle";
+            this.txtMovieTitle.ReadOnly = true;
             this.txtMovieTitle.Size = new System.Drawing.Size(271, 27);
             this.txtMovieTitle.TabIndex = 47;
             // 
@@ -269,7 +276,7 @@
             this.Controls.Add(this.btnFetchData);
             this.Controls.Add(this.dataGv);
             this.Controls.Add(this.lblControlName);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ucShows";
             this.Size = new System.Drawing.Size(877, 587);
             this.Load += new System.EventHandler(this.ucShows_Load);

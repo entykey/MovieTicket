@@ -4,7 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CRVCinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CRVCinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__EFMigrationsHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Bookings">
           <Key>
             <PropertyRef Name="BookingId" />
@@ -33,6 +40,7 @@
           <Property Name="Director" Type="nvarchar(max)" />
           <Property Name="ReleaseDate" Type="datetime2" Precision="7" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="SeatPrice" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="OrderedItems">
           <Key>
@@ -297,6 +305,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CRVCinemaModelStoreContainer">
+          <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FoodDrinks" EntityType="Self.FoodDrinks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
@@ -352,8 +361,7 @@
             <End Role="UserTokens" EntitySet="UserTokens" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CRVCinemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -388,6 +396,7 @@
           <Property Name="ReleaseDate" Type="DateTime" Precision="7" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Shows" Relationship="Self.FK_Shows_Movies_MovieId" FromRole="Movies" ToRole="Shows" />
+          <Property Name="SeatPrice" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="OrderedItems">
           <Key>
@@ -684,7 +693,15 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="C__EFMigrationsHistory" EntityType="CRVCinemaModel.C__EFMigrationsHistory" />
         </EntityContainer>
+        <EntityType Name="C__EFMigrationsHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -715,6 +732,7 @@
           <EntitySetMapping Name="Movies">
             <EntityTypeMapping TypeName="CRVCinemaModel.Movies">
               <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="SeatPrice" ColumnName="SeatPrice" />
                 <ScalarProperty Name="MovieId" ColumnName="MovieId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Director" ColumnName="Director" />
@@ -855,6 +873,14 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="C__EFMigrationsHistory">
+            <EntityTypeMapping TypeName="CRVCinemaModel.C__EFMigrationsHistory">
+              <MappingFragment StoreEntitySet="__EFMigrationsHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
