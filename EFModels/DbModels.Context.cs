@@ -9,13 +9,11 @@
 
 namespace MovieTicket.EFModels
 {
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class CRVCinemaEntities : DbContext // DbContext
+    public partial class CRVCinemaEntities : DbContext
     {
         public CRVCinemaEntities()
             : base("name=CRVCinemaEntities")
@@ -40,5 +38,6 @@ namespace MovieTicket.EFModels
         public virtual DbSet<UserLogins> UserLogins { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<UserTokens> UserTokens { get; set; }
+        public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
     }
 }

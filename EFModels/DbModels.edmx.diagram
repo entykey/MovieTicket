@@ -27,6 +27,7 @@
         <AssociationConnector Association="CRVCinemaModel.FK_UserLogins_Users_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="CRVCinemaModel.FK_UserTokens_Users_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="CRVCinemaModel.UserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CRVCinemaModel.C__EFMigrationsHistory" Width="1.5" PointX="10.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

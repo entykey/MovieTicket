@@ -32,15 +32,15 @@
 
             // format DateTimePicker to pick both Date & Time
             dtpStartTime.Format = DateTimePickerFormat.Custom;
-            dtpStartTime.CustomFormat = "dd/MM/yyyy hh:mm:ss";
+            dtpStartTime.CustomFormat = "MM/dd/yy HH:mm tt";
             dtpEndTime.Format = DateTimePickerFormat.Custom;
-            dtpEndTime.CustomFormat = "dd/MM/yyyy hh:mm:ss";
+            dtpEndTime.CustomFormat = "MM/dd/yy HH:mm tt";
 
             this.btnDeleteShow.Enabled = false;
             this.btnUpdateShow.Enabled = false;
             this.btnCancelSelection.Enabled = false;
 
-            LoadMovieNames();
+            //LoadMovieNames(); // Load ở đây gây bug khiến cboMovieName_SelectedIndexChanged chạy 2 lần => xung đột thread !!
         }
 
         #region database operations
@@ -52,7 +52,7 @@
                 .ToListAsync();
 
             // Populate ComboBox with movie names
-            cboMovieName.DataSource = movieData;
+            cboMovieName.DataSource = movieData.ToList();
             cboMovieName.DisplayMember = "Title";
             cboMovieName.ValueMember = "MovieId";
         }
@@ -108,10 +108,12 @@
             // Find the movie in the database
             Shows showToUpdate = dbContext.Shows.Find(txtShowId.Text);
 
+
             if (showToUpdate != null)
             {
                 // Update the movie properties
-                showToUpdate.ShowId = txtMovieId.Text;
+                //showToUpdate.ShowId = txtMovieId.Text; có lỗi
+                //showToUpdate.ShowId = txtShowId.Text; sửa thành thế này thì chạy đc nhưng id thì k cần sửa
                 showToUpdate.StartTime = dtpStartTime.Value;
                 showToUpdate.EndTime = dtpEndTime.Value;
 
@@ -190,6 +192,7 @@
         private async void btnFetchData_Click(object sender, EventArgs e)
         {
             await BindDataShowsToDataGv();
+            await LoadMovieNames();   // lặp task, đã khởi tạo ở ucShow() !!!
         }
         private async void btnAddShow_Click(object sender, EventArgs e)
         {
@@ -202,6 +205,7 @@
         private async void btnDeleteShow_Click(object sender, EventArgs e)
         {
             await DeleteShow();
+            btnCancelSelection_Click(sender, e);
         }
         #endregion
 
@@ -212,14 +216,30 @@
             txtShowId.Text = "";
             txtMovieTitle.Text = "";
             dtpStartTime.Value = DateTime.Now;
-            dtpEndTime.Value = DateTime.Now;
+            dtpEndTime.Value = dtpStartTime.Value.AddMinutes(60);
             btnUpdateShow.Enabled = false;
             btnDeleteShow.Enabled = false;
         }
 
         private void ucShows_Load(object sender, EventArgs e)
         {
+            dtpEndTime.Value = dtpStartTime.Value.AddMinutes(60);
+            //LoadMovieNames(); // Load ở đây gây bug khiến cboMovieName_SelectedIndexChanged chạy 2 lần => xung đột thread !!
 
+        }
+
+
+        // Mặc định các phim sẽ là 60 phút
+        private void dtpStartTime_ValueChanged(object sender, EventArgs e)
+        {
+            // Lấy giá trị mới của dtpStartTime
+            DateTime startTime = dtpStartTime.Value;
+
+            // Tính toán giá trị mới cho dtpEndTime
+            DateTime endTime = startTime.AddMinutes(60);
+
+            // Thiết lập giá trị cho dtpEndTime
+            dtpEndTime.Value = endTime;
         }
     }
 }

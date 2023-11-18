@@ -6,7 +6,6 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Azure;
 
     public partial class ucMovies : UserControl
     {
@@ -45,7 +44,8 @@
         }
         public async Task AddMovie()
         {
-            dbContext.Movies.Add(new Movies() { MovieId = Guid.NewGuid().ToString(), Title = txtTitle.Text, Director = txtDirector.Text, ReleaseDate = dtpReleaseDate.Value, Description = txtDescription.Text });
+            decimal price = txtPrice.Text == "" ? 30000 : decimal.Parse(txtPrice.Text);
+            dbContext.Movies.Add(new Movies() { MovieId = Guid.NewGuid().ToString(), Title = txtTitle.Text, Director = txtDirector.Text, ReleaseDate = dtpReleaseDate.Value, Description = txtDescription.Text, SeatPrice = price });
             await Task.FromResult(dbContext.SaveChanges());
             BindDataMovieToDataGv();
         }
@@ -61,6 +61,7 @@
                 movieToUpdate.Director = txtDirector.Text;
                 movieToUpdate.ReleaseDate = dtpReleaseDate.Value;
                 movieToUpdate.Description = txtDescription.Text;
+                movieToUpdate.SeatPrice = decimal.Parse(txtPrice.Text);
 
                 // Save the changes to the database
                 await Task.FromResult(dbContext.SaveChanges());
@@ -89,6 +90,24 @@
             txtDirector.Text = dataGv.Rows[e.RowIndex].Cells[2].Value.ToString();
             txtDescription.Text = dataGv.Rows[e.RowIndex].Cells[4].Value.ToString();
 
+            // Check if the SeatPrice cell value is null before assigning
+            if (dataGv.Rows[e.RowIndex].Cells[5].Value != null)
+            {
+                txtPrice.Text = dataGv.Rows[e.RowIndex].Cells[5].Value.ToString();
+            }
+            else
+            {
+                // show 30000 as default
+                txtPrice.Text = 30000.ToString();
+            }
+
+            var startTime = (from m in dbContext.Movies
+                             join s in dbContext.Shows on m.MovieId equals s.MovieId
+                             where m.MovieId == txtMovieId.Text
+                             select s.StartTime).ToList();
+
+            cbShow.DataSource = startTime;
+
             // Check if the cell value is null before converting to DateTime
             if (dataGv.Rows[e.RowIndex].Cells[3].Value != null)
             {
@@ -116,6 +135,7 @@
         private async void btnAddMovie_Click(object sender, EventArgs e)
         {
             await AddMovie();
+            btnCancelSelection_Click(sender, e);
         }
         private async void btnUpdateMovie_Click(object sender, EventArgs e)
         {
@@ -124,6 +144,7 @@
         private async void btnDeleteMovie_Click(object sender, EventArgs e)
         {
             await DeleteMovie();
+            btnCancelSelection_Click(sender, e);
         }
         private void btnCancelSelection_Click(object sender, EventArgs e)
         {
@@ -132,6 +153,9 @@
             txtTitle.Text = "";
             txtDirector.Text = "";
             txtDescription.Text = "";
+            txtPrice.Text = "";
+            cbShow.SelectedIndex = -1;
+            cbShow.DataSource = null;
             dtpReleaseDate.Value = DateTime.Now;
             btnUpdateMovie.Enabled = false;
             btnDeleteMovie.Enabled = false;
@@ -144,6 +168,9 @@
 
         }
 
-        
+        private void dataGv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
