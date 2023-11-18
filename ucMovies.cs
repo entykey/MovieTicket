@@ -6,8 +6,6 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Azure;
-    using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
     public partial class ucMovies : UserControl
     {
@@ -91,7 +89,17 @@
             txtTitle.Text = dataGv.Rows[e.RowIndex].Cells[1].Value.ToString();
             txtDirector.Text = dataGv.Rows[e.RowIndex].Cells[2].Value.ToString();
             txtDescription.Text = dataGv.Rows[e.RowIndex].Cells[4].Value.ToString();
-            txtPrice.Text = dataGv.Rows[e.RowIndex].Cells[5].Value.ToString();
+
+            // Check if the SeatPrice cell value is null before assigning
+            if (dataGv.Rows[e.RowIndex].Cells[5].Value != null)
+            {
+                txtPrice.Text = dataGv.Rows[e.RowIndex].Cells[5].Value.ToString();
+            }
+            else
+            {
+                // show 30000 as default
+                txtPrice.Text = 30000.ToString();
+            }
 
             var startTime = (from m in dbContext.Movies
                              join s in dbContext.Shows on m.MovieId equals s.MovieId
