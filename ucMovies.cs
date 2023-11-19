@@ -172,5 +172,10 @@
         {
 
         }
+
+        private void dtpReleaseDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
