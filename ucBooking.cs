@@ -1,10 +1,18 @@
-﻿namespace MovieTicket
+﻿
+namespace MovieTicket
 {
     using Models;
+    using MovieTicket.EFModels;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
+    using System.Security.Cryptography;
+    using System.Text;
 
 
     public partial class ucBooking : UserControl
@@ -21,6 +29,10 @@
             }
         }
 
+        #region EntityFramework entity
+        CRVCinemaEntities dbContext = new CRVCinemaEntities();
+        #endregion
+
         private const int Rows = 10;
         private const int Columns = 12;
         private const decimal SeatPrice = 45000.0m;
@@ -29,9 +41,10 @@
         private List<Seat> selectedSeats = new List<Seat>();
         private decimal totalPrice = 0.0m;
 
-        // For demonstration purposes, we use a Dictionary to store movie information and booked seats.
-        private Dictionary<string, Movie> movies = new Dictionary<string, Movie>();
-        private Dictionary<string, List<string>> bookedSeatsByMovie = new Dictionary<string, List<string>>();
+
+        private Dictionary<string, string> movieData = new Dictionary<string, string>();
+        private Dictionary<string, string> showData = new Dictionary<string, string>();
+
 
         public ucBooking()
         {
@@ -39,13 +52,11 @@
             InitializeSeatButtons();
             LoadMovies();
             InitializeComboBox();
-            //lblControlName.Text += DateTime.Now.ToString();
         }
 
-        private void ucBooking_Load(object sender, EventArgs e)
-        {
-        }
 
+
+        // Check ở đây -----
         private void InitializeSeatButtons()
         {
             tableLayoutPanel1.RowCount = Rows;
@@ -57,7 +68,7 @@
                 {
                     Button seatButton = new Button
                     {
-                        Text = $"{(char)('A' + col)}-{row + 1}",
+                        Text = $"{(char)('A' + row)}-{col + 1}",
                         Width = 40,
                         Height = 40,
                         Tag = new Seat(row, col),
@@ -76,21 +87,18 @@
         // fake data for Movie dbset
         private void LoadMovies()
         {
-            // For demonstration purposes, we create two sample movies.
-            movies.Add("Movie1", new Movie("Movie 1", Rows, Columns));
-            movies.Add("Movie2", new Movie("Movie 2", Rows, Columns));
+            var result = from m in dbContext.Movies
+                         select new { m.Title, m.MovieId };
 
-            // Initialize booked seats dictionary for each movie
-            foreach (var movie in movies.Keys)
+            foreach (var item in result)
             {
-                bookedSeatsByMovie[movie] = new List<string>();
+                movieData[item.Title] = item.MovieId;
+                cmbMovies.Items.Add(item.Title);
             }
         }
 
         private void InitializeComboBox()
         {
-            // Populate the combo box with movie titles
-            cmbMovies.Items.AddRange(movies.Keys.ToArray());
             cmbMovies.SelectedIndex = 0; // Select the first movie by default
             UpdateBookedSeats();
         }
@@ -99,6 +107,8 @@
         {
             Button seatButton = (Button)sender;
             Seat seat = (Seat)seatButton.Tag;
+
+            if (seatButton.BackColor == System.Drawing.Color.Gray) return;
 
             ToggleSeatSelection(seatButton, seat);
         }
@@ -143,11 +153,30 @@
             lblTotalPrice.Text = $"Total Price: {totalPrice:C}";
         }
 
+        public async Task AddBooking(Seat seat, String movieId)
+        {
+            string seatId = seat.ToString();
+            String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
+
+            dbContext.Bookings.Add(new Bookings()
+            {
+                BookingId = Guid.NewGuid().ToString(),
+                ShowId = showId,
+                SeatNumber = seatId,
+                IsBooked = true,
+                BookingDate = DateTime.Now
+
+            });
+
+            await Task.FromResult(dbContext.SaveChanges());
+        }
+
         private void btnBookNow_Click(object sender, EventArgs e)
         {
             try
             {
                 string selectedMovieKey = cmbMovies.SelectedItem.ToString();
+                string movieId = movieData[selectedMovieKey];
 
                 if (selectedSeats.Count > 0)
                 {
@@ -157,15 +186,12 @@
                         seat.ToggleBookingStatus();
                         UpdateSeatButtonAppearance(seatButtons[seat.Row, seat.Column], seat);
 
-                        string seatId = $"{(char)('A' + seat.Column)}-{seat.Row + 1}";
-                        if (!bookedSeatsByMovie[selectedMovieKey].Contains(seatId))
-                        {
-                            bookedSeatsByMovie[selectedMovieKey].Add(seatId);
-                        }
+                        AddBooking(seat, movieId);
                     }
 
                     // Clear the selected seats
-                    selectedSeats.Clear();
+                    //////// mới xóa
+                    //selectedSeats.Clear();
 
                     // Reset total price
                     UpdateTotalPrice();
@@ -182,6 +208,13 @@
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            string selectedMovieKey = cmbMovies.SelectedItem.ToString();
+            string movieId = movieData[selectedMovieKey];
+
+
+            String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
+
+
             // Clear the selected seats without marking them as booked
             foreach (Seat seat in selectedSeats)
             {
@@ -204,35 +237,148 @@
         private void UpdateBookedSeats()
         {
             string selectedMovieKey = cmbMovies.SelectedItem.ToString();
+            string movieId = movieData[selectedMovieKey];
 
-            if (bookedSeatsByMovie.ContainsKey(selectedMovieKey))
+            selectedSeats.Sort();
+            foreach (Seat seat in selectedSeats)
             {
-                // Display the booked seats for the selected movie
-                lblBookedSeats.Text = $"Booked Seats (ghế): {string.Join(", ", bookedSeatsByMovie[selectedMovieKey])}";
 
-                // Update the seat buttons based on the booked seats for the selected movie
                 foreach (Button seatButton in tableLayoutPanel1.Controls)
                 {
-                    Seat seat = (Seat)seatButton.Tag;
-                    bool isBooked = bookedSeatsByMovie[selectedMovieKey].Contains($"{(char)('A' + seat.Column)}-{seat.Row + 1}");
-                    seat.IsBooked = isBooked;
-                    UpdateSeatButtonAppearance(seatButton, seat);
+                    Seat seatReturned = (Seat)seatButton.Tag;
+
+                    if (seat.Row == seatReturned.Row && seat.Column == seatReturned.Column)
+                    {
+                        seatReturned.IsBooked = true;
+                        UpdateSeatButtonAppearance(seatButton, seatReturned);
+
+                        lblBookedSeats.Text = lblBookedSeats.Text + ", " + seat.ToString();
+
+                    }
                 }
             }
-            else
+
+            //if (lblBookedSeats.Text.EndsWith(", "))
+            //{
+            //    lblBookedSeats.Text = lblBookedSeats.Text.Substring(0, lblBookedSeats.Text.Length - ", ".Length);
+            //    lblBookedSeats.Text = lblBookedSeats.Text + " ";
+            //}
+
+
+
+            selectedSeats.Clear();
+        }
+
+        private void cbShow_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Reset
+            lblBookedSeats.Text = "Booked seats (ghế): ";
+            lblTotalPrice.Text = $"Total Price: ";
+
+            foreach (Button seatButton in tableLayoutPanel1.Controls)
             {
-                lblBookedSeats.Text = "Booked Seats (ghế): N/A";
+                seatButton.BackColor = System.Drawing.Color.White;
+
+                // Lấy Seat từ Tag của Button
+                Seat seat = (Seat)seatButton.Tag;
+
+                // Reset trạng thái đặt chỗ
+                seat.IsBooked = false;
             }
+
+
+
+            string selectedMovieKey = cmbMovies.SelectedItem.ToString();
+            string movieId = movieData[selectedMovieKey];
+
+            //// --- HERE -> get Booking and change the Seats
+            String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
+
+
+            var querySeats = from b in dbContext.Bookings
+                             where b.ShowId == showId
+                             select b.SeatNumber;
+
+            List<string> seats = querySeats.ToList();
+
+            selectedSeats.Clear();
+
+            for (var i = 0; i < seats.Count; i++)
+            {
+                string seatCode = seats[i];
+
+                char rowChar = seatCode[0]; // Lấy ký tự đầu tiên
+
+                int column = int.Parse(seatCode.Substring(2)) - 1; // Chuyển đổi phần số, giả sử số đó có thể có nhiều hơn một chữ số
+                int row = rowChar - 'A'; // Chuyển đổi ký tự thành số (ví dụ: 'A' -> 0, 'B' -> 1, ...)
+
+                Seat seat = new Seat(row, column);
+                selectedSeats.Add(seat);
+            }
+            UpdateBookedSeats();
+            //Text = $"{(char)('A' + row)}-{col + 1}";
+            //seatButtons[row, col] = seatButton;
         }
 
         private void cmbMovies_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbShow.Items.Clear();
+            selectedSeats.Clear();
+
+            string selectedMovieKey = cmbMovies.SelectedItem.ToString();
+            string movieId = movieData[selectedMovieKey];
+
+
+            var query = from s in dbContext.Shows
+                        where s.MovieId == movieId
+                        select new { s.StartTime, s.ShowId };
+
+
+
+            foreach (var item in query)
+            {
+                cbShow.Items.Add(item.StartTime.Value.ToString("MM/dd/yy HH:mm tt"));
+
+                String tmp = GetHash(item.StartTime.Value.ToString("MM/dd/yy HH:mm tt"), movieId);
+
+                showData[tmp] = item.ShowId;
+            }
+            cbShow.SelectedIndex = 0;
+            cbShow_SelectedIndexChanged(sender, e);
+
+
             // Update the booked seats display when the selected movie changes
             UpdateBookedSeats();
 
             // Clear the selected seats and reset the total price when switching between movies
-            selectedSeats.Clear();
             UpdateTotalPrice();
         }
+
+        // helper method
+        private static string GetHash(string firstString, string secondString)
+        {
+            string combinedString = $"{firstString}{secondString}";
+
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(combinedString);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    stringBuilder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return stringBuilder.ToString();
+            }
+        }
+
+        private void ucBooking_Load(object sender, EventArgs e)
+        {
+        }
+
+
     }
 }
+

@@ -241,5 +241,10 @@
             // Thiết lập giá trị cho dtpEndTime
             dtpEndTime.Value = endTime;
         }
+
+        private void dtpEndTime_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

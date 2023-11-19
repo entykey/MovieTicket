@@ -3,7 +3,7 @@
     using System;
 
 
-    public class Seat
+    public class Seat : IComparable<Seat>
     {
         public int Row { get; }
         public int Column { get; }
@@ -20,5 +20,17 @@
         {
             IsBooked = !IsBooked;
         }
+
+        public override string ToString()
+        {
+            return $"{(char)('A' + Row)}-{Column + 1}";
+        }
+
+        public int CompareTo(Seat other)
+        {
+            // Sử dụng ToString để so sánh
+            return this.ToString().CompareTo(other.ToString());
+        }
+
     }
 }

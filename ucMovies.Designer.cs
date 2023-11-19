@@ -146,6 +146,7 @@
             this.dtpReleaseDate.Name = "dtpReleaseDate";
             this.dtpReleaseDate.Size = new System.Drawing.Size(313, 27);
             this.dtpReleaseDate.TabIndex = 18;
+            this.dtpReleaseDate.ValueChanged += new System.EventHandler(this.dtpReleaseDate_ValueChanged);
             // 
             // lblDesc
             // 
