@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnLogout = new System.Windows.Forms.Button();
+            this.btnCreateStaffAccount = new System.Windows.Forms.Button();
             this.btnAssignRole = new System.Windows.Forms.Button();
             this.btnRoles = new System.Windows.Forms.Button();
             this.btnShows = new System.Windows.Forms.Button();
@@ -39,7 +41,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.lblControlName = new System.Windows.Forms.Label();
-            this.btnCreateStaffAccount = new System.Windows.Forms.Button();
+            this.btnFoodDrink = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -48,6 +50,8 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panelMenu.Controls.Add(this.btnFoodDrink);
+            this.panelMenu.Controls.Add(this.btnLogout);
             this.panelMenu.Controls.Add(this.btnCreateStaffAccount);
             this.panelMenu.Controls.Add(this.btnAssignRole);
             this.panelMenu.Controls.Add(this.btnRoles);
@@ -59,8 +63,36 @@
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(316, 947);
+            this.panelMenu.Size = new System.Drawing.Size(316, 1329);
             this.panelMenu.TabIndex = 0;
+            // 
+            // btnLogout
+            // 
+            this.btnLogout.FlatAppearance.BorderSize = 0;
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogout.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogout.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnLogout.Location = new System.Drawing.Point(0, 1225);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(310, 58);
+            this.btnLogout.TabIndex = 9;
+            this.btnLogout.Text = "Logout";
+            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
+            // btnCreateStaffAccount
+            // 
+            this.btnCreateStaffAccount.FlatAppearance.BorderSize = 0;
+            this.btnCreateStaffAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCreateStaffAccount.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCreateStaffAccount.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnCreateStaffAccount.Location = new System.Drawing.Point(7, 508);
+            this.btnCreateStaffAccount.Name = "btnCreateStaffAccount";
+            this.btnCreateStaffAccount.Size = new System.Drawing.Size(310, 58);
+            this.btnCreateStaffAccount.TabIndex = 8;
+            this.btnCreateStaffAccount.Text = "Cấp TK";
+            this.btnCreateStaffAccount.UseVisualStyleBackColor = true;
+            this.btnCreateStaffAccount.Click += new System.EventHandler(this.btnCreateStaffAccount_Click);
             // 
             // btnAssignRole
             // 
@@ -173,7 +205,7 @@
             this.panelMain.Location = new System.Drawing.Point(325, 15);
             this.panelMain.Margin = new System.Windows.Forms.Padding(6);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(1316, 917);
+            this.panelMain.Size = new System.Drawing.Size(1863, 1299);
             this.panelMain.TabIndex = 2;
             // 
             // lblControlName
@@ -188,25 +220,25 @@
             this.lblControlName.TabIndex = 1;
             this.lblControlName.Text = "Dashboard";
             // 
-            // btnCreateStaffAccount
+            // btnFoodDrink
             // 
-            this.btnCreateStaffAccount.FlatAppearance.BorderSize = 0;
-            this.btnCreateStaffAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCreateStaffAccount.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCreateStaffAccount.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnCreateStaffAccount.Location = new System.Drawing.Point(7, 508);
-            this.btnCreateStaffAccount.Name = "btnCreateStaffAccount";
-            this.btnCreateStaffAccount.Size = new System.Drawing.Size(310, 58);
-            this.btnCreateStaffAccount.TabIndex = 8;
-            this.btnCreateStaffAccount.Text = "Cấp TK";
-            this.btnCreateStaffAccount.UseVisualStyleBackColor = true;
-            this.btnCreateStaffAccount.Click += new System.EventHandler(this.btnCreateStaffAccount_Click);
+            this.btnFoodDrink.FlatAppearance.BorderSize = 0;
+            this.btnFoodDrink.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFoodDrink.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFoodDrink.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnFoodDrink.Location = new System.Drawing.Point(6, 572);
+            this.btnFoodDrink.Name = "btnFoodDrink";
+            this.btnFoodDrink.Size = new System.Drawing.Size(310, 58);
+            this.btnFoodDrink.TabIndex = 10;
+            this.btnFoodDrink.Text = "Food Drink";
+            this.btnFoodDrink.UseVisualStyleBackColor = true;
+            this.btnFoodDrink.Click += new System.EventHandler(this.btnFoodDrink_Click);
             // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1656, 947);
+            this.ClientSize = new System.Drawing.Size(2203, 1329);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelMenu);
             this.Name = "Home";
@@ -235,6 +267,8 @@
         private System.Windows.Forms.Button btnRoles;
         private System.Windows.Forms.Button btnAssignRole;
         private System.Windows.Forms.Button btnCreateStaffAccount;
+        private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Button btnFoodDrink;
     }
 }
 

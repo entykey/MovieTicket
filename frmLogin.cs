@@ -15,6 +15,7 @@
         public frmLogin()
         {
             InitializeComponent();
+            txtUserName.Focus();
         }
 
         #region EntityFramework entity

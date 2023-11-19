@@ -34,7 +34,6 @@
             this.lblUserNames = new System.Windows.Forms.Label();
             this.btnUpdateRole = new System.Windows.Forms.Button();
             this.btnFetchData = new System.Windows.Forms.Button();
-            this.chkbIsAdmin = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoles)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,26 +52,27 @@
             // dgvRoles
             // 
             this.dgvRoles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRoles.Location = new System.Drawing.Point(48, 328);
+            this.dgvRoles.Location = new System.Drawing.Point(48, 260);
             this.dgvRoles.Name = "dgvRoles";
             this.dgvRoles.RowHeadersWidth = 82;
             this.dgvRoles.RowTemplate.Height = 33;
-            this.dgvRoles.Size = new System.Drawing.Size(1167, 391);
+            this.dgvRoles.Size = new System.Drawing.Size(1059, 268);
             this.dgvRoles.TabIndex = 5;
             // 
             // cboUserNames
             // 
+            this.cboUserNames.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboUserNames.FormattingEnabled = true;
-            this.cboUserNames.Location = new System.Drawing.Point(205, 178);
+            this.cboUserNames.Location = new System.Drawing.Point(205, 182);
             this.cboUserNames.Name = "cboUserNames";
-            this.cboUserNames.Size = new System.Drawing.Size(290, 33);
+            this.cboUserNames.Size = new System.Drawing.Size(290, 39);
             this.cboUserNames.TabIndex = 6;
             this.cboUserNames.SelectedIndexChanged += new System.EventHandler(this.cboUserNames_SelectedIndexChanged);
             // 
             // lblUserNames
             // 
             this.lblUserNames.AutoSize = true;
-            this.lblUserNames.Location = new System.Drawing.Point(48, 186);
+            this.lblUserNames.Location = new System.Drawing.Point(48, 191);
             this.lblUserNames.Name = "lblUserNames";
             this.lblUserNames.Size = new System.Drawing.Size(113, 25);
             this.lblUserNames.TabIndex = 7;
@@ -98,21 +98,10 @@
             this.btnFetchData.UseVisualStyleBackColor = true;
             this.btnFetchData.Click += new System.EventHandler(this.btnFetchData_Click);
             // 
-            // chkbIsAdmin
-            // 
-            this.chkbIsAdmin.AutoSize = true;
-            this.chkbIsAdmin.Location = new System.Drawing.Point(53, 232);
-            this.chkbIsAdmin.Name = "chkbIsAdmin";
-            this.chkbIsAdmin.Size = new System.Drawing.Size(120, 29);
-            this.chkbIsAdmin.TabIndex = 34;
-            this.chkbIsAdmin.Text = "IsAdmin";
-            this.chkbIsAdmin.UseVisualStyleBackColor = true;
-            // 
             // ucAssignRole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.chkbIsAdmin);
             this.Controls.Add(this.btnFetchData);
             this.Controls.Add(this.btnUpdateRole);
             this.Controls.Add(this.lblUserNames);
@@ -120,7 +109,7 @@
             this.Controls.Add(this.dgvRoles);
             this.Controls.Add(this.lblControlName);
             this.Name = "ucAssignRole";
-            this.Size = new System.Drawing.Size(1316, 917);
+            this.Size = new System.Drawing.Size(1418, 1099);
             this.Load += new System.EventHandler(this.ucAssignRole_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoles)).EndInit();
             this.ResumeLayout(false);
@@ -136,6 +125,5 @@
         private System.Windows.Forms.Label lblUserNames;
         private System.Windows.Forms.Button btnUpdateRole;
         private System.Windows.Forms.Button btnFetchData;
-        private System.Windows.Forms.CheckBox chkbIsAdmin;
     }
 }

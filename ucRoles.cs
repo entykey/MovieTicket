@@ -1,6 +1,4 @@
-﻿
-
-namespace MovieTicket
+﻿namespace MovieTicket
 {
     using Microsoft.AspNet.Identity.EntityFramework;
     using MovieTicket.EFModels;

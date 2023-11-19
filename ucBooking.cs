@@ -13,7 +13,7 @@ namespace MovieTicket
     using System.Windows.Forms;
     using System.Security.Cryptography;
     using System.Text;
-
+    using System.Drawing;
 
     public partial class ucBooking : UserControl
     {
@@ -51,9 +51,13 @@ namespace MovieTicket
             InitializeComponent();
             InitializeSeatButtons();
             LoadMovies();
+            LoadFoodAndDrink();
             InitializeComboBox();
         }
 
+        private void ucBooking_Load(object sender, EventArgs e)
+        {
+        }
 
 
         // Check ở đây -----
@@ -69,8 +73,8 @@ namespace MovieTicket
                     Button seatButton = new Button
                     {
                         Text = $"{(char)('A' + row)}-{col + 1}",
-                        Width = 40,
-                        Height = 40,
+                        Width = 36,
+                        Height = 36,
                         Tag = new Seat(row, col),
                         BackColor = System.Drawing.Color.White
                     };
@@ -94,6 +98,16 @@ namespace MovieTicket
             {
                 movieData[item.Title] = item.MovieId;
                 cmbMovies.Items.Add(item.Title);
+            }
+        }
+
+        private void LoadFoodAndDrink()
+        {
+            var result = dbContext.FoodDrinks.ToList();
+                         
+            foreach (var item in result)
+            {
+                cmbFoodDrink.Items.Add(item.Name);
             }
         }
 
@@ -161,6 +175,30 @@ namespace MovieTicket
             }
 
             UpdateTotalPrice();
+        }
+
+        private void nudQuantity_ValueChanged(object sender, EventArgs e)
+        {
+            // Get the selected item from the ComboBox
+            string selectedFoodDrinkName = cmbFoodDrink.SelectedItem?.ToString();
+
+            // Check if a valid item is selected
+            if (!string.IsNullOrEmpty(selectedFoodDrinkName))
+            {
+                // Find the corresponding FoodDrink in the database
+                var selectedFoodDrink = dbContext.FoodDrinks.FirstOrDefault(fd => fd.Name == selectedFoodDrinkName);
+
+                // Check if the FoodDrink is found
+                if (selectedFoodDrink != null)
+                {
+                    // Calculate the total price based on quantity
+                    decimal quantity = nudQuantity.Value;
+                    decimal totalPrice = quantity * selectedFoodDrink.Price;
+
+                    // Display the calculated price in the txtPrice TextBox
+                    txtPrice.Text = totalPrice.ToString();
+                }
+            }
         }
 
         private void UpdateTotalPrice()
@@ -285,6 +323,7 @@ namespace MovieTicket
             selectedSeats.Clear();
         }
 
+        #region comboboxes
         private void cbShow_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Reset
@@ -339,8 +378,6 @@ namespace MovieTicket
         private void cmbMovies_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-
-
             cbShow.Items.Clear();
             selectedSeats.Clear();
 
@@ -385,7 +422,48 @@ namespace MovieTicket
             UpdateTotalPrice();
         }
 
-        // helper method
+        private void cmbFoodDrink_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the selected item from the ComboBox
+            string selectedFoodDrinkName = cmbFoodDrink.SelectedItem?.ToString();
+
+            // Check if a valid item is selected
+            if (!string.IsNullOrEmpty(selectedFoodDrinkName))
+            {
+                // Find the corresponding FoodDrink in the database
+                var selectedFoodDrink = dbContext.FoodDrinks.FirstOrDefault(fd => fd.Name == selectedFoodDrinkName);
+                txtPrice.Text = selectedFoodDrink.Price.ToString();
+                nudQuantity.Value = 1;
+
+                // Check if the FoodDrink is found
+                if (selectedFoodDrink != null)
+                {
+                    // Display the image in the PictureBox
+                    try
+                    {
+                        // Check if the image path is not empty
+                        if (!string.IsNullOrEmpty(selectedFoodDrink.ImagePath))
+                        {
+                            // Load and display the image in the PictureBox
+                            pbFoodDrink.Image = Image.FromFile(selectedFoodDrink.ImagePath);
+                        }
+                        else
+                        {
+                            // Clear the PictureBox if the image path is empty
+                            pbFoodDrink.Image = null;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        #endregion
+
+
+        #region helper methods
         private static string GetHash(string firstString, string secondString)
         {
             string combinedString = $"{firstString}{secondString}";
@@ -404,12 +482,9 @@ namespace MovieTicket
                 return stringBuilder.ToString();
             }
         }
+        #endregion
 
-        private void ucBooking_Load(object sender, EventArgs e)
-        {
-        }
-
-
+        
     }
 }
 

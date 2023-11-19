@@ -12,6 +12,7 @@
     using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
     using System.Drawing;
     using System.Linq;
+    using System.Runtime.Remoting.Contexts;
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -32,12 +33,20 @@
             }
         }
 
+        public class UserRoleInfo
+        {
+            public string RoleId { get; set; }
+            public string RoleName { get; set; }
+            public bool IsInRole { get; set; }
+        }
+
         #region EntityFramework entity
         public readonly CRVCinemaEntities dbContext;
         #endregion
 
         private List<Roles> allRoles;
 
+        #region form events
         public ucAssignRole()
         {
             InitializeComponent();
@@ -46,11 +55,15 @@
             //LoadUserNames();
             //LoadAllRoles();
 
+        }
 
+        private void ucAssignRole_Load(object sender, EventArgs e)
+        {
 
         }
-        
+        #endregion
 
+        #region database operations
         private async Task LoadUserNames()
         {
             var userNames = await dbContext.Users
@@ -60,36 +73,13 @@
             cboUserNames.DataSource = userNames;
         }
 
-        private async Task LoadAllRoles()
-        {
-            allRoles = dbContext.Roles.ToList();
-            //dgvRoles.DataSource = allRoles;
-            dgvRoles.DataSource = allRoles.Select(r => new { r.Id, r.Name }).ToList();
-
-
-            //allRoles = await dbContext.Roles.ToListAsync();
-            //dgvRoles.DataSource = allRoles.Select(r => new { r.Id, r.Name, IsInRole = false }).ToList();
-
-
-            dgvRoles.AutoGenerateColumns = false;
-            dgvRoles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRoles.MultiSelect = false;
-
-            // Add checkbox column
-            DataGridViewCheckBoxColumn checkboxColumn = new DataGridViewCheckBoxColumn
-            {
-                ValueType = typeof(bool),
-                HeaderText = "Is In Role",
-                Name = "colIsInRole",
-                DataPropertyName = "IsInRole"
-            };
-            dgvRoles.Columns.Add(checkboxColumn);
-        }
+        #endregion
 
         private async void cboUserNames_SelectedIndexChanged(object sender, EventArgs e)
         {
             //string selectedUserName = cboUserNames.SelectedItem?.ToString();
 
+            // EF approach
             //if (!string.IsNullOrEmpty(selectedUserName))
             //{
             //    var selectedUser = await dbContext.Users
@@ -117,40 +107,75 @@
 
             string selectedUserName = cboUserNames.SelectedItem?.ToString();
 
-            if (!string.IsNullOrEmpty(selectedUserName))
+            // approach 2 (no more errors, but only show roles of a user)
+            //// Fetch user roles
+            //allRoles = await dbContext.Roles
+            //    .Where(r => r.Users.Any(u => u.UserName == selectedUserName))
+            //    .ToListAsync();
+            //// bind data to dgv
+            //dgvRoles.DataSource = allRoles.Select(r => new { r.Id, r.Name }).ToList();
+
+            // ADO.NET approach
+            List<UserRoleInfo> userRolesInfo = new List<UserRoleInfo>();
+
+            using (var connection = new SqlConnection(Globals.ConnectionString))
             {
-                try
+                connection.Open();
+
+                // Fetch user ID based on the username
+                var userIdQuery = "SELECT Id FROM Users WHERE UserName = @UserName";
+                using (var getUserIdCommand = new SqlCommand(userIdQuery, connection))
                 {
-                    using (SqlConnection connection = new SqlConnection(Globals.ConnectionString))
+                    getUserIdCommand.Parameters.AddWithValue("@UserName", selectedUserName);
+
+                    var userId = getUserIdCommand.ExecuteScalar() as string;
+
+                    if (userId != null)
                     {
-                        await connection.OpenAsync();
+                        // Fetch user roles
+                        var userRolesQuery = "SELECT r.Id, r.Name FROM Roles r " +
+                                             "JOIN UserRoles ur ON r.Id = ur.RoleId " +
+                                             "WHERE ur.UserId = @UserId";
 
-                        string query = @"
-                        SELECT r.Id, r.Name, CASE WHEN ur.UserId IS NOT NULL THEN 1 ELSE 0 END AS IsInRole
-                        FROM Users r
-                        LEFT JOIN UserRoles ur ON r.Id = ur.RoleId AND ur.UserId = (
-                            SELECT Id FROM Users WHERE UserName = @UserName
-                        )";
-
-                        using (SqlCommand command = new SqlCommand(query, connection))
+                        using (var getUserRolesCommand = new SqlCommand(userRolesQuery, connection))
                         {
-                            command.Parameters.AddWithValue("@UserName", selectedUserName);
+                            getUserRolesCommand.Parameters.AddWithValue("@UserId", userId);
 
-                            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                            using (var reader = getUserRolesCommand.ExecuteReader())
                             {
-                                DataTable dataTable = new DataTable();
-                                adapter.Fill(dataTable);
+                                var allRoles = new List<string>();
 
-                                dgvRoles.DataSource = dataTable;
+                                while (reader.Read())
+                                {
+                                    allRoles.Add(reader["Name"].ToString());
+                                }
+
+                                // Fetch all roles
+                                var allRolesQuery = "SELECT r.Id, r.Name FROM Roles r";
+
+                                using (var getAllRolesCommand = new SqlCommand(allRolesQuery, connection))
+                                using (var allRolesReader = getAllRolesCommand.ExecuteReader())
+                                {
+                                    while (allRolesReader.Read())
+                                    {
+                                        var roleId = allRolesReader["Id"].ToString();
+                                        var roleName = allRolesReader["Name"].ToString();
+                                        
+                                        userRolesInfo.Add(new UserRoleInfo
+                                        {
+                                            RoleId = roleId,
+                                            RoleName = roleName,
+                                            IsInRole = allRoles.Contains(roleName)
+                                        });
+                                    }
+                                }
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
+
+            dgvRoles.DataSource = userRolesInfo;
         }
 
         //private async void btnUpdateRole_Click(object sender, EventArgs e)
@@ -193,44 +218,6 @@
         //}
         private async void btnUpdateRole_Click(object sender, EventArgs e)
         {
-            //string selectedUserName = cboUserNames.SelectedItem.ToString();
-            //var selectedUser = await dbContext.Users
-            //    .FirstOrDefaultAsync(u => u.UserName == selectedUserName);
-
-            //if (selectedUser != null)
-            //{
-            //    // Update user roles based on checkbox IsAdmin
-            //    bool isInAdminRole = chkbIsAdmin.Checked;
-
-            //    if (isInAdminRole)
-            //    {
-            //        var adminRole = await dbContext.Roles
-            //            .FirstOrDefaultAsync(u => u.Name == "Admin");
-
-            //        dbContext.UserRoles.Add(new IdentityUserRole
-            //        {
-            //            UserId = selectedUser.Id,
-            //            RoleId = adminRole.Id
-            //        });
-            //    }
-            //    else
-            //    {
-            //        var adminRole = await dbContext.Roles
-            //            .FirstOrDefaultAsync(u => u.Name == "Admin");
-
-            //        var userRole = await dbContext.UserRoles
-            //            .FirstOrDefaultAsync(ur => ur.UserId == selectedUser.Id && ur.RoleId == adminRole.Id);
-
-            //        if (userRole != null)
-            //        {
-            //            dbContext.UserRoles.Remove(userRole);
-            //        }
-            //    }
-
-            //    await dbContext.SaveChangesAsync();
-            //    MessageBox.Show("Roles updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
-
 
             string selectedUserName = cboUserNames.SelectedItem?.ToString();
 
@@ -256,10 +243,10 @@
                         {
                             foreach (DataGridViewRow row in dgvRoles.Rows)
                             {
-                                bool isInRole = Convert.ToBoolean(row.Cells["colIsInRole"].Value);
+                                bool isInRole = Convert.ToBoolean(row.Cells["IsInRole"].Value);
                                 if (isInRole)
                                 {
-                                    string roleId = row.Cells["Id"].Value.ToString();
+                                    string roleId = row.Cells["RoleId"].Value.ToString();
                                     addRolesCommand.Parameters.Clear();
                                     addRolesCommand.Parameters.AddWithValue("@UserName", selectedUserName);
                                     addRolesCommand.Parameters.AddWithValue("@RoleId", roleId);
@@ -281,12 +268,8 @@
         private async void btnFetchData_Click(object sender, EventArgs e)
         {
             await LoadUserNames();
-            await LoadAllRoles();
         }
 
-        private void ucAssignRole_Load(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }
