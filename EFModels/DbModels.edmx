@@ -4,14 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CRVCinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="__EFMigrationsHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-          </Key>
-          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
-        </EntityType>
+      <Schema Namespace="CRVCinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bookings">
           <Key>
             <PropertyRef Name="BookingId" />
@@ -44,10 +37,10 @@
         </EntityType>
         <EntityType Name="OrderedItems">
           <Key>
-            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="BookingId" />
             <PropertyRef Name="FoodDrinkId" />
           </Key>
-          <Property Name="TicketId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="BookingId" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="FoodDrinkId" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="Quantity" Type="int" />
         </EntityType>
@@ -87,16 +80,6 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
-        <EntityType Name="Tickets">
-          <Key>
-            <PropertyRef Name="TicketId" />
-          </Key>
-          <Property Name="TicketId" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ShowId" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="SeatNumber" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="IsBooked" Type="bit" Nullable="false" />
-          <Property Name="DatePrinted" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="UserClaims">
           <Key>
@@ -182,6 +165,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderedItems_Bookings_BookingId">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="1" />
+          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="BookingId" />
+            </Principal>
+            <Dependent Role="OrderedItems">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderedItems_FoodDrinks_FoodDrinkId">
           <End Role="FoodDrinks" Type="Self.FoodDrinks" Multiplicity="1" />
           <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
@@ -191,18 +186,6 @@
             </Principal>
             <Dependent Role="OrderedItems">
               <PropertyRef Name="FoodDrinkId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderedItems_Tickets_TicketId">
-          <End Role="Tickets" Type="Self.Tickets" Multiplicity="1" />
-          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tickets">
-              <PropertyRef Name="TicketId" />
-            </Principal>
-            <Dependent Role="OrderedItems">
-              <PropertyRef Name="TicketId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -305,7 +288,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CRVCinemaModelStoreContainer">
-          <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FoodDrinks" EntityType="Self.FoodDrinks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
@@ -314,7 +296,6 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shows" EntityType="Self.Shows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserClaims" EntityType="Self.UserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogins" EntityType="Self.UserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
@@ -324,12 +305,12 @@
             <End Role="Shows" EntitySet="Shows" />
             <End Role="Bookings" EntitySet="Bookings" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderedItems_FoodDrinks_FoodDrinkId" Association="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId">
-            <End Role="FoodDrinks" EntitySet="FoodDrinks" />
+          <AssociationSet Name="FK_OrderedItems_Bookings_BookingId" Association="Self.FK_OrderedItems_Bookings_BookingId">
+            <End Role="Bookings" EntitySet="Bookings" />
             <End Role="OrderedItems" EntitySet="OrderedItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderedItems_Tickets_TicketId" Association="Self.FK_OrderedItems_Tickets_TicketId">
-            <End Role="Tickets" EntitySet="Tickets" />
+          <AssociationSet Name="FK_OrderedItems_FoodDrinks_FoodDrinkId" Association="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId">
+            <End Role="FoodDrinks" EntitySet="FoodDrinks" />
             <End Role="OrderedItems" EntitySet="OrderedItems" />
           </AssociationSet>
           <AssociationSet Name="FK_RoleClaims_Roles_RoleId" Association="Self.FK_RoleClaims_Roles_RoleId">
@@ -361,7 +342,8 @@
             <End Role="UserTokens" EntitySet="UserTokens" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CRVCinemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -375,6 +357,7 @@
           <Property Name="IsBooked" Type="Boolean" />
           <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Shows" Relationship="Self.FK_Bookings_Shows_ShowId" FromRole="Bookings" ToRole="Shows" />
+          <NavigationProperty Name="OrderedItems" Relationship="Self.FK_OrderedItems_Bookings_BookingId" FromRole="Bookings" ToRole="OrderedItems" />
         </EntityType>
         <EntityType Name="FoodDrinks">
           <Key>
@@ -395,19 +378,19 @@
           <Property Name="Director" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ReleaseDate" Type="DateTime" Precision="7" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Shows" Relationship="Self.FK_Shows_Movies_MovieId" FromRole="Movies" ToRole="Shows" />
           <Property Name="SeatPrice" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Shows" Relationship="Self.FK_Shows_Movies_MovieId" FromRole="Movies" ToRole="Shows" />
         </EntityType>
         <EntityType Name="OrderedItems">
           <Key>
-            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="BookingId" />
             <PropertyRef Name="FoodDrinkId" />
           </Key>
-          <Property Name="TicketId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BookingId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FoodDrinkId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_OrderedItems_Bookings_BookingId" FromRole="OrderedItems" ToRole="Bookings" />
           <NavigationProperty Name="FoodDrinks" Relationship="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId" FromRole="OrderedItems" ToRole="FoodDrinks" />
-          <NavigationProperty Name="Tickets" Relationship="Self.FK_OrderedItems_Tickets_TicketId" FromRole="OrderedItems" ToRole="Tickets" />
         </EntityType>
         <EntityType Name="RoleClaims">
           <Key>
@@ -450,17 +433,6 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Tickets">
-          <Key>
-            <PropertyRef Name="TicketId" />
-          </Key>
-          <Property Name="TicketId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ShowId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SeatNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsBooked" Type="Boolean" Nullable="false" />
-          <Property Name="DatePrinted" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="OrderedItems" Relationship="Self.FK_OrderedItems_Tickets_TicketId" FromRole="Tickets" ToRole="OrderedItems" />
         </EntityType>
         <EntityType Name="UserClaims">
           <Key>
@@ -545,6 +517,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderedItems_Bookings_BookingId">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="1" />
+          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="BookingId" />
+            </Principal>
+            <Dependent Role="OrderedItems">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderedItems_FoodDrinks_FoodDrinkId">
           <End Role="FoodDrinks" Type="Self.FoodDrinks" Multiplicity="1" />
           <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
@@ -568,18 +552,6 @@
             </Principal>
             <Dependent Role="Shows">
               <PropertyRef Name="MovieId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderedItems_Tickets_TicketId">
-          <End Role="Tickets" Type="Self.Tickets" Multiplicity="1" />
-          <End Role="OrderedItems" Type="Self.OrderedItems" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tickets">
-              <PropertyRef Name="TicketId" />
-            </Principal>
-            <Dependent Role="OrderedItems">
-              <PropertyRef Name="TicketId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -652,7 +624,6 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Shows" EntityType="Self.Shows" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="Tickets" EntityType="Self.Tickets" />
           <EntitySet Name="UserClaims" EntityType="Self.UserClaims" />
           <EntitySet Name="UserLogins" EntityType="Self.UserLogins" />
           <EntitySet Name="Users" EntityType="Self.Users" />
@@ -661,6 +632,10 @@
             <End Role="Shows" EntitySet="Shows" />
             <End Role="Bookings" EntitySet="Bookings" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrderedItems_Bookings_BookingId" Association="Self.FK_OrderedItems_Bookings_BookingId">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="OrderedItems" EntitySet="OrderedItems" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderedItems_FoodDrinks_FoodDrinkId" Association="Self.FK_OrderedItems_FoodDrinks_FoodDrinkId">
             <End Role="FoodDrinks" EntitySet="FoodDrinks" />
             <End Role="OrderedItems" EntitySet="OrderedItems" />
@@ -668,10 +643,6 @@
           <AssociationSet Name="FK_Shows_Movies_MovieId" Association="Self.FK_Shows_Movies_MovieId">
             <End Role="Movies" EntitySet="Movies" />
             <End Role="Shows" EntitySet="Shows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderedItems_Tickets_TicketId" Association="Self.FK_OrderedItems_Tickets_TicketId">
-            <End Role="Tickets" EntitySet="Tickets" />
-            <End Role="OrderedItems" EntitySet="OrderedItems" />
           </AssociationSet>
           <AssociationSet Name="FK_RoleClaims_Roles_RoleId" Association="Self.FK_RoleClaims_Roles_RoleId">
             <End Role="Roles" EntitySet="Roles" />
@@ -693,15 +664,7 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="C__EFMigrationsHistory" EntityType="CRVCinemaModel.C__EFMigrationsHistory" />
         </EntityContainer>
-        <EntityType Name="C__EFMigrationsHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-          </Key>
-          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -732,19 +695,19 @@
           <EntitySetMapping Name="Movies">
             <EntityTypeMapping TypeName="CRVCinemaModel.Movies">
               <MappingFragment StoreEntitySet="Movies">
-                <ScalarProperty Name="SeatPrice" ColumnName="SeatPrice" />
                 <ScalarProperty Name="MovieId" ColumnName="MovieId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Director" ColumnName="Director" />
                 <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SeatPrice" ColumnName="SeatPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderedItems">
             <EntityTypeMapping TypeName="CRVCinemaModel.OrderedItems">
               <MappingFragment StoreEntitySet="OrderedItems">
-                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
                 <ScalarProperty Name="FoodDrinkId" ColumnName="FoodDrinkId" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
               </MappingFragment>
@@ -788,17 +751,6 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tickets">
-            <EntityTypeMapping TypeName="CRVCinemaModel.Tickets">
-              <MappingFragment StoreEntitySet="Tickets">
-                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
-                <ScalarProperty Name="ShowId" ColumnName="ShowId" />
-                <ScalarProperty Name="SeatNumber" ColumnName="SeatNumber" />
-                <ScalarProperty Name="IsBooked" ColumnName="IsBooked" />
-                <ScalarProperty Name="DatePrinted" ColumnName="DatePrinted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -873,14 +825,6 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="C__EFMigrationsHistory">
-            <EntityTypeMapping TypeName="CRVCinemaModel.C__EFMigrationsHistory">
-              <MappingFragment StoreEntitySet="__EFMigrationsHistory">
-                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
-                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

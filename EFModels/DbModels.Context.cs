@@ -35,11 +35,9 @@ namespace MovieTicket.EFModels
         public virtual DbSet<IdentityUserRole> UserRoles { get; set; }
         public virtual DbSet<Shows> Shows { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<Tickets> Tickets { get; set; }
         public virtual DbSet<UserClaims> UserClaims { get; set; }
         public virtual DbSet<UserLogins> UserLogins { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<UserTokens> UserTokens { get; set; }
-        public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
     }
 }

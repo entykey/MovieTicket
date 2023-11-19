@@ -14,6 +14,12 @@ namespace MovieTicket.EFModels
     
     public partial class Bookings
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Bookings()
+        {
+            this.OrderedItems = new HashSet<OrderedItems>();
+        }
+    
         public string BookingId { get; set; }
         public string ShowId { get; set; }
         public string SeatNumber { get; set; }
@@ -21,5 +27,7 @@ namespace MovieTicket.EFModels
         public System.DateTime BookingDate { get; set; }
     
         public virtual Shows Shows { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderedItems> OrderedItems { get; set; }
     }
 }

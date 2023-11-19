@@ -14,11 +14,11 @@ namespace MovieTicket.EFModels
     
     public partial class OrderedItems
     {
-        public string TicketId { get; set; }
+        public string BookingId { get; set; }
         public string FoodDrinkId { get; set; }
         public Nullable<int> Quantity { get; set; }
     
+        public virtual Bookings Bookings { get; set; }
         public virtual FoodDrinks FoodDrinks { get; set; }
-        public virtual Tickets Tickets { get; set; }
     }
 }

@@ -231,9 +231,6 @@
     <Compile Include="EFModels\Bookings.cs">
       <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="EFModels\C__EFMigrationsHistory.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="EFModels\DbModels.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -268,9 +265,6 @@
       <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
     <Compile Include="EFModels\sysdiagrams.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EFModels\Tickets.cs">
       <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
     <Compile Include="EFModels\UserClaims.cs">
@@ -395,6 +389,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="EFModels\DbModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbModels.edmx</DependentUpon>
@@ -405,9 +402,6 @@
       <DependentUpon>DbModels.edmx</DependentUpon>
       <LastGenOutput>DbModels.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
