@@ -33,6 +33,8 @@
         {
             InitializeComponent();
             dbContext = new CRVCinemaEntities();
+
+            BindDataUserToDataGv();
         }
 
         static string HashPasswordWithIdentity(string password)
@@ -51,6 +53,14 @@
             return isMatch;
         }
 
+        #region database method
+        public void BindDataUserToDataGv()
+        {
+            var result = from u in dbContext.Users.ToList()
+                         select u;
+
+            dgvUsers.DataSource = result.ToList();
+        }
         public async Task CreateStaffAccount()
         {
             string userName = txtUserName.Text.Trim();
@@ -129,6 +139,7 @@
                 }
             }
         }
+        #endregion
 
         private async void btnCreateStaff_Click(object sender, EventArgs e)
         {

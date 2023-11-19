@@ -34,6 +34,8 @@
             this.lblUserNames = new System.Windows.Forms.Label();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dgvUsers = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.SuspendLayout();
             // 
             // lblControlName
@@ -81,16 +83,28 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // dgvUsers
+            // 
+            this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUsers.Location = new System.Drawing.Point(48, 331);
+            this.dgvUsers.Name = "dgvUsers";
+            this.dgvUsers.RowHeadersWidth = 82;
+            this.dgvUsers.RowTemplate.Height = 33;
+            this.dgvUsers.Size = new System.Drawing.Size(1150, 275);
+            this.dgvUsers.TabIndex = 11;
+            // 
             // ucCreateStaffAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.dgvUsers);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.lblUserNames);
             this.Controls.Add(this.btnCreateStaff);
             this.Controls.Add(this.lblControlName);
             this.Name = "ucCreateStaffAccount";
             this.Size = new System.Drawing.Size(1316, 917);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -103,5 +117,6 @@
         private System.Windows.Forms.Label lblUserNames;
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.DataGridView dgvUsers;
     }
 }

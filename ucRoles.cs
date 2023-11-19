@@ -107,33 +107,6 @@ namespace MovieTicket
             }
         }
 
-        private async Task AssignRoleToUser(string userId, string roleName)
-        {
-            // Get the user
-            var user = await dbContext.Users.FindAsync(userId);
-
-            if (user != null)
-            {
-                // Check if the role exists
-                var role = await dbContext.Roles.SingleOrDefaultAsync(r => r.Name == roleName);
-
-                if (role != null)
-                {
-                    // Assign the role to the user
-                    dbContext.UserRoles.Add(new IdentityUserRole { UserId = userId, RoleId = role.Id });
-                    await dbContext.SaveChangesAsync();
-                }
-                else
-                {
-                    MessageBox.Show($"Role '{roleName}' does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show($"User with ID '{userId}' not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         #endregion
 
 
