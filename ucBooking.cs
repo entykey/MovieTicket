@@ -35,7 +35,7 @@ namespace MovieTicket
 
         private const int Rows = 10;
         private const int Columns = 12;
-        private const decimal SeatPrice = 45000.0m;
+        private  decimal SeatPrice = 45000.0m;
 
         private Button[,] seatButtons = new Button[Rows, Columns];
         private List<Seat> selectedSeats = new List<Seat>();
@@ -100,6 +100,22 @@ namespace MovieTicket
         private void InitializeComboBox()
         {
             cmbMovies.SelectedIndex = 0; // Select the first movie by default
+
+            string selectedMovieKey = cmbMovies.SelectedItem.ToString();
+            string movieId = movieData[selectedMovieKey];
+
+            // set giá
+            var price = dbContext.Movies
+            .Where(m => m.MovieId == movieId)
+            .Select(m => m.SeatPrice)
+            .FirstOrDefault()
+            .ToString();
+
+            if (price != null)
+            {
+                SeatPrice = decimal.Parse(price);
+            }
+
             UpdateBookedSeats();
         }
 
@@ -322,11 +338,26 @@ namespace MovieTicket
 
         private void cmbMovies_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
+
+
             cbShow.Items.Clear();
             selectedSeats.Clear();
 
             string selectedMovieKey = cmbMovies.SelectedItem.ToString();
             string movieId = movieData[selectedMovieKey];
+
+            // set giá
+            var price = dbContext.Movies
+            .Where(m => m.MovieId == movieId)
+            .Select(m => m.SeatPrice)
+            .FirstOrDefault()
+            .ToString();
+
+            if(price != null)
+            {
+                SeatPrice = decimal.Parse(price);
+            }
 
 
             var query = from s in dbContext.Shows
