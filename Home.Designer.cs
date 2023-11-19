@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnAssignRole = new System.Windows.Forms.Button();
+            this.btnRoles = new System.Windows.Forms.Button();
+            this.btnShows = new System.Windows.Forms.Button();
             this.btnPhim = new System.Windows.Forms.Button();
             this.btnDashboard = new System.Windows.Forms.Button();
             this.btnBanVe = new System.Windows.Forms.Button();
@@ -36,7 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.lblControlName = new System.Windows.Forms.Label();
-            this.btnShows = new System.Windows.Forms.Button();
+            this.btnCreateStaffAccount = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -45,6 +48,9 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panelMenu.Controls.Add(this.btnCreateStaffAccount);
+            this.panelMenu.Controls.Add(this.btnAssignRole);
+            this.panelMenu.Controls.Add(this.btnRoles);
             this.panelMenu.Controls.Add(this.btnShows);
             this.panelMenu.Controls.Add(this.btnPhim);
             this.panelMenu.Controls.Add(this.btnDashboard);
@@ -55,6 +61,48 @@
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(316, 947);
             this.panelMenu.TabIndex = 0;
+            // 
+            // btnAssignRole
+            // 
+            this.btnAssignRole.FlatAppearance.BorderSize = 0;
+            this.btnAssignRole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAssignRole.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAssignRole.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnAssignRole.Location = new System.Drawing.Point(3, 444);
+            this.btnAssignRole.Name = "btnAssignRole";
+            this.btnAssignRole.Size = new System.Drawing.Size(310, 58);
+            this.btnAssignRole.TabIndex = 7;
+            this.btnAssignRole.Text = "Assign Role";
+            this.btnAssignRole.UseVisualStyleBackColor = true;
+            this.btnAssignRole.Click += new System.EventHandler(this.btnAssignRole_Click);
+            // 
+            // btnRoles
+            // 
+            this.btnRoles.FlatAppearance.BorderSize = 0;
+            this.btnRoles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRoles.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRoles.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnRoles.Location = new System.Drawing.Point(3, 382);
+            this.btnRoles.Name = "btnRoles";
+            this.btnRoles.Size = new System.Drawing.Size(310, 58);
+            this.btnRoles.TabIndex = 6;
+            this.btnRoles.Text = "Roles";
+            this.btnRoles.UseVisualStyleBackColor = true;
+            this.btnRoles.Click += new System.EventHandler(this.btnRoles_Click);
+            // 
+            // btnShows
+            // 
+            this.btnShows.FlatAppearance.BorderSize = 0;
+            this.btnShows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShows.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnShows.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnShows.Location = new System.Drawing.Point(0, 318);
+            this.btnShows.Name = "btnShows";
+            this.btnShows.Size = new System.Drawing.Size(310, 58);
+            this.btnShows.TabIndex = 5;
+            this.btnShows.Text = "Ca chiếu";
+            this.btnShows.UseVisualStyleBackColor = true;
+            this.btnShows.Click += new System.EventHandler(this.btnShows_Click);
             // 
             // btnPhim
             // 
@@ -140,19 +188,19 @@
             this.lblControlName.TabIndex = 1;
             this.lblControlName.Text = "Dashboard";
             // 
-            // btnShows
+            // btnCreateStaffAccount
             // 
-            this.btnShows.FlatAppearance.BorderSize = 0;
-            this.btnShows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShows.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnShows.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnShows.Location = new System.Drawing.Point(0, 318);
-            this.btnShows.Name = "btnShows";
-            this.btnShows.Size = new System.Drawing.Size(310, 58);
-            this.btnShows.TabIndex = 5;
-            this.btnShows.Text = "Ca chiếu";
-            this.btnShows.UseVisualStyleBackColor = true;
-            this.btnShows.Click += new System.EventHandler(this.btnShows_Click);
+            this.btnCreateStaffAccount.FlatAppearance.BorderSize = 0;
+            this.btnCreateStaffAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCreateStaffAccount.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCreateStaffAccount.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnCreateStaffAccount.Location = new System.Drawing.Point(7, 508);
+            this.btnCreateStaffAccount.Name = "btnCreateStaffAccount";
+            this.btnCreateStaffAccount.Size = new System.Drawing.Size(310, 58);
+            this.btnCreateStaffAccount.TabIndex = 8;
+            this.btnCreateStaffAccount.Text = "Cấp TK";
+            this.btnCreateStaffAccount.UseVisualStyleBackColor = true;
+            this.btnCreateStaffAccount.Click += new System.EventHandler(this.btnCreateStaffAccount_Click);
             // 
             // Home
             // 
@@ -184,6 +232,9 @@
         private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.Button btnPhim;
         private System.Windows.Forms.Button btnShows;
+        private System.Windows.Forms.Button btnRoles;
+        private System.Windows.Forms.Button btnAssignRole;
+        private System.Windows.Forms.Button btnCreateStaffAccount;
     }
 }
 

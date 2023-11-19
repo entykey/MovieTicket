@@ -5,10 +5,10 @@
     using EFModels;
     using Models;
     using System;
-    using System.Data.Entity;
     using System.Linq;
     using System.Windows.Forms;
     using System.Threading.Tasks;
+    using AppContext = Models.AppContext;
 
     public partial class frmLogin : Form
     {
@@ -26,7 +26,22 @@
         {
             return await Task.Run(() =>
             {
-                return dbContext.Users.FirstOrDefault(c => c.UserName == userName);
+                var user = dbContext.Users
+                    .FirstOrDefault(c => c.UserName == userName);
+
+                if (user != null)
+                {
+                    // Fetch user roles
+                    var roles = dbContext.Roles
+                        .Where(r => r.Users.Any(u => u.UserName == userName))
+                        .Select(r => r.Name)
+                        .ToList();
+
+                    // Set user roles in AppContext
+                    AppContext.Roles = roles;
+                }
+
+                return user;
             });
         }
         #endregion
@@ -63,6 +78,10 @@
             if (user != null && VerifyPasswordWithIdentityBCrypt(plainPassword, user.PasswordHash))
             {
                 // Login successful
+
+                // Store user information in global storage
+                AppContext.CurrentUser = user;
+                //AppContext.CurrentUserRole = user.Role; // Assuming Role is the user's role
 
                 // Close the login form
                 this.Hide();

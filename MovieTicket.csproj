@@ -285,7 +285,20 @@
     <Compile Include="EFModels\UserTokens.cs">
       <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppContext.cs" />
     <Compile Include="Models\Booking.cs" />
+    <Compile Include="ucAssignRole.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucAssignRole.Designer.cs">
+      <DependentUpon>ucAssignRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucCreateStaffAccount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucCreateStaffAccount.Designer.cs">
+      <DependentUpon>ucCreateStaffAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucMovies.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -315,12 +328,24 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ucRoles.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucRoles.Designer.cs">
+      <DependentUpon>ucRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucShows.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ucShows.Designer.cs">
       <DependentUpon>ucShows.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ucAssignRole.resx">
+      <DependentUpon>ucAssignRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucCreateStaffAccount.resx">
+      <DependentUpon>ucCreateStaffAccount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ucMovies.resx">
       <DependentUpon>ucMovies.cs</DependentUpon>
     </EmbeddedResource>
@@ -342,6 +367,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ucRoles.resx">
+      <DependentUpon>ucRoles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ucShows.resx">
       <DependentUpon>ucShows.cs</DependentUpon>
     </EmbeddedResource>
