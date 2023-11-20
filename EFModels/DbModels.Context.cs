@@ -9,7 +9,6 @@
 
 namespace MovieTicket.EFModels
 {
-    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
@@ -32,7 +31,6 @@ namespace MovieTicket.EFModels
         public virtual DbSet<OrderedItems> OrderedItems { get; set; }
         public virtual DbSet<RoleClaims> RoleClaims { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
-        public virtual DbSet<IdentityUserRole> UserRoles { get; set; }
         public virtual DbSet<Shows> Shows { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<UserClaims> UserClaims { get; set; }

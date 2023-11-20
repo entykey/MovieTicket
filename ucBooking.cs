@@ -13,7 +13,12 @@ namespace MovieTicket
     using System.Windows.Forms;
     using System.Security.Cryptography;
     using System.Text;
-    using System.Drawing;
+
+    using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+    using Button = System.Windows.Forms.Button;
+    using static System.Net.Mime.MediaTypeNames;
+    using System.Reflection;
+
 
     public partial class ucBooking : UserControl
     {
@@ -35,7 +40,7 @@ namespace MovieTicket
 
         private const int Rows = 10;
         private const int Columns = 12;
-        private  decimal SeatPrice = 45000.0m;
+        private decimal SeatPrice = 45000.0m;
 
         private Button[,] seatButtons = new Button[Rows, Columns];
         private List<Seat> selectedSeats = new List<Seat>();
@@ -44,6 +49,7 @@ namespace MovieTicket
 
         private Dictionary<string, string> movieData = new Dictionary<string, string>();
         private Dictionary<string, string> showData = new Dictionary<string, string>();
+        private Dictionary<string, string> foodData = new Dictionary<string, string>();
 
 
         public ucBooking()
@@ -51,7 +57,9 @@ namespace MovieTicket
             InitializeComponent();
             InitializeSeatButtons();
             LoadMovies();
-            LoadFoodAndDrink();
+
+            LoadFoods();
+
             InitializeComboBox();
         }
 
@@ -92,6 +100,9 @@ namespace MovieTicket
         // load db data for Movie dbset
         private void LoadMovies()
         {
+            cmbMovies.Items.Clear();
+            movieData.Clear();
+
             var result = from m in dbContext.Movies
                          select new { m.Title, m.MovieId };
 
@@ -102,13 +113,20 @@ namespace MovieTicket
             }
         }
 
-        private void LoadFoodAndDrink()
+
+        private void LoadFoods()
         {
-            var result = dbContext.FoodDrinks.ToList();
-                         
-            foreach (var item in result)
+            cbFood.Items.Clear();
+            foodData.Clear();
+
+            var query = from d in dbContext.FoodDrinks
+                        select new { d.FoodDrinkId, d.Name, d.Price };
+
+            foreach (var item in query)
             {
-                cmbFoodDrink.Items.Add(item.Name);
+                foodData[item.Name + " - " + item.Price] = item.FoodDrinkId;
+                cbFood.Items.Add(item.Name + " - " + item.Price);
+
             }
         }
 
@@ -138,6 +156,12 @@ namespace MovieTicket
 
         private void SeatButton_Click(object sender, EventArgs e)
         {
+            if (cbShow.Text == "")
+            {
+                MessageBox.Show("Cần suất chiếu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             Button seatButton = (Button)sender;
             Seat seat = (Seat)seatButton.Tag;
 
@@ -207,55 +231,120 @@ namespace MovieTicket
         private void UpdateTotalPrice()
         {
             totalPrice = selectedSeats.Count * SeatPrice;
+
+            foreach (var item in cbOrdered.Items)
+            {
+                string itemText = item.ToString();
+                string[] parts = itemText.Split('-');
+
+                int index = itemText.LastIndexOf("x");
+
+                int count = int.Parse(itemText.Substring(index + 1));
+
+
+                // Cộng thêm tiền * số lượng
+                totalPrice += decimal.Parse(parts[1].Trim()) * count;
+
+
+            }
+
             lblTotalPrice.Text = $"Total Price: {totalPrice:C}";
         }
 
-        public async Task AddBooking(Seat seat, String movieId)
+        public async Task AddBooking(string seatList, String movieId, string bookingId, string showId)
         {
-            string seatId = seat.ToString();
-            String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
-
             dbContext.Bookings.Add(new Bookings()
             {
-                BookingId = Guid.NewGuid().ToString(),
+                BookingId = bookingId,
                 ShowId = showId,
-                SeatNumber = seatId,
+                SeatNumber = seatList,
                 IsBooked = true,
                 BookingDate = DateTime.Now
 
             });
-
             await Task.FromResult(dbContext.SaveChanges());
+        }
+
+
+        public async Task AddFoodDrinks(string seatList, String movieId, string bookingId, string showId)
+        {
+            try
+            {
+                foreach (var cbItem in cbOrdered.Items)
+                {
+                    string item = cbItem.ToString();
+
+                    int index = item.LastIndexOf("x");
+                    int quantity = int.Parse(item.Substring(index + 1));
+
+                    var itemSplit = item.Split('-');
+
+                    string foodId = foodData[itemSplit[0].Trim() + " - " + itemSplit[1].Trim()];
+
+                    dbContext.OrderedItems.Add(new OrderedItems()
+                    {
+                        BookingId = bookingId,
+                        FoodDrinkId = foodId,
+                        Quantity = quantity
+                    });
+
+                }
+                await Task.FromResult(dbContext.SaveChanges());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Exception: {ex.Message}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnBookNow_Click(object sender, EventArgs e)
         {
+            if (selectedSeats.Count <= 0)
+            {
+                MessageBox.Show("Cần chọn ghế", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             try
             {
                 string selectedMovieKey = cmbMovies.SelectedItem.ToString();
                 string movieId = movieData[selectedMovieKey];
+                String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
+
 
                 if (selectedSeats.Count > 0)
                 {
+                    string seatList = "";
                     // Mark selected seats as booked for the selected movie
                     foreach (Seat seat in selectedSeats)
                     {
                         seat.ToggleBookingStatus();
                         UpdateSeatButtonAppearance(seatButtons[seat.Row, seat.Column], seat);
 
-                        AddBooking(seat, movieId);
+                        seatList += seat.ToString() + ",";
+
                     }
 
-                    // Clear the selected seats
-                    //////// mới xóa
-                    //selectedSeats.Clear();
+                    string bookingId = Guid.NewGuid().ToString();
+                    seatList = seatList.Substring(0, seatList.Length - 1);
+
+                    AddBooking(seatList, movieId, bookingId, showId);
+                    AddFoodDrinks(seatList, movieId, bookingId, showId);
 
                     // Reset total price
                     UpdateTotalPrice();
 
                     // Update the combo box to reflect the changes
                     UpdateBookedSeats();
+
+
+                    // Xem có cần có food ordered không?
+                    cbOrdered.Items.Clear();
                 }
+
+
+                // FoodDrinks
+
             }
             catch (Exception ex)
             {
@@ -268,8 +357,14 @@ namespace MovieTicket
             string selectedMovieKey = cmbMovies.SelectedItem.ToString();
             string movieId = movieData[selectedMovieKey];
 
+            cbOrdered.Items.Clear();
 
-            String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
+
+            if (cbShow.SelectedItem != null)
+            {
+                String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
+            }
+
 
 
             // Clear the selected seats without marking them as booked
@@ -331,7 +426,7 @@ namespace MovieTicket
         {
             // Reset
             lblBookedSeats.Text = "Booked seats (ghế): ";
-            lblTotalPrice.Text = $"Total Price: ";
+            lblTotalPrice.Text = $"Total Price: $0.00";
 
             foreach (Button seatButton in tableLayoutPanel1.Controls)
             {
@@ -357,7 +452,16 @@ namespace MovieTicket
                              where b.ShowId == showId
                              select b.SeatNumber;
 
-            List<string> seats = querySeats.ToList();
+            List<string> seats = new List<string>();
+            // querySeats.ToList();
+            foreach(var item in querySeats.ToList())
+            {
+                var split = item.Split(',');
+                foreach(var seat in split) {
+                    seats.Add(seat);
+                }
+            }
+            
 
             selectedSeats.Clear();
 
@@ -380,7 +484,24 @@ namespace MovieTicket
 
         private void cmbMovies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
+            // Reset
+            lblBookedSeats.Text = "Booked seats (ghế): ";
+            lblTotalPrice.Text = $"Total Price: ";
+
+            foreach (Button seatButton in tableLayoutPanel1.Controls)
+            {
+                seatButton.BackColor = System.Drawing.Color.White;
+
+                // Lấy Seat từ Tag của Button
+                Seat seat = (Seat)seatButton.Tag;
+
+                // Reset trạng thái đặt chỗ
+                seat.IsBooked = false;
+            }
+
+
+
             cbShow.Items.Clear();
             selectedSeats.Clear();
 
@@ -394,7 +515,7 @@ namespace MovieTicket
             .FirstOrDefault()
             .ToString();
 
-            if(price != null)
+            if (price != null)
             {
                 SeatPrice = decimal.Parse(price);
             }
@@ -405,17 +526,20 @@ namespace MovieTicket
                         select new { s.StartTime, s.ShowId };
 
 
-
-            foreach (var item in query)
+            if (query.Any())
             {
-                cbShow.Items.Add(item.StartTime.Value.ToString("MM/dd/yy HH:mm tt"));
+                foreach (var item in query)
+                {
+                    cbShow.Items.Add(item.StartTime.Value.ToString("MM/dd/yy HH:mm tt"));
 
-                String tmp = GetHash(item.StartTime.Value.ToString("MM/dd/yy HH:mm tt"), movieId);
+                    String tmp = GetHash(item.StartTime.Value.ToString("MM/dd/yy HH:mm tt"), movieId);
 
-                showData[tmp] = item.ShowId;
+                    showData[tmp] = item.ShowId;
+                }
+                cbShow.SelectedIndex = 0;
+                cbShow_SelectedIndexChanged(sender, e);
             }
-            cbShow.SelectedIndex = 0;
-            cbShow_SelectedIndexChanged(sender, e);
+
 
 
             // Update the booked seats display when the selected movie changes
@@ -487,7 +611,137 @@ namespace MovieTicket
         }
         #endregion
 
-        
+
+        private void ucBooking_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTotalPrice_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnFetch_Click(object sender, EventArgs e)
+        {
+            LoadMovies();
+            cbShow.Items.Clear();
+            cbOrdered.Items.Clear();
+
+            lblBookedSeats.Text = "Booked seats (ghế): ";
+            lblTotalPrice.Text = $"Total Price: $0.00";
+
+            foreach (Button seatButton in tableLayoutPanel1.Controls)
+            {
+                seatButton.BackColor = System.Drawing.Color.White;
+
+                // Lấy Seat từ Tag của Button
+                Seat seat = (Seat)seatButton.Tag;
+
+                // Reset trạng thái đặt chỗ
+                seat.IsBooked = false;
+            }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnFood_Click(object sender, EventArgs e)
+        {
+            if (cbFood.Text == "") return;
+
+            String text = cbFood.Text + " - x1";
+            int index = text.LastIndexOf("x");
+            decimal quantity = 1;
+
+            foreach (string item in cbOrdered.Items)
+            {
+                var itemSplit = item.Split('-');
+                var cbFoodSplit = cbFood.Text.Split('-');
+
+                if (itemSplit[0].Trim() == cbFoodSplit[0].Trim() && itemSplit[1].Trim() == cbFoodSplit[1].Trim())
+                {
+                    quantity = decimal.Parse(item.Substring(index + 1));
+
+                    cbOrdered.Items.Remove(item);
+
+                    text = cbFood.Text + " - x" + (quantity + 1);
+                    cbOrdered.Items.Add(text);
+
+                    UpdateTotalPrice();
+
+                    if (cbOrdered.Items.Count > 0)
+                    {
+                        cbOrdered.SelectedIndex = 0;
+                    }
+
+                    return;
+                }
+
+            }
+
+            cbOrdered.Items.Add(text);
+            UpdateTotalPrice();
+
+            if (cbOrdered.Items.Count > 0)
+            {
+                cbOrdered.SelectedIndex = 0;
+            }
+        }
+
+        private void btnRemoveFood_Click(object sender, EventArgs e)
+        {
+            if (cbOrdered.SelectedIndex == -1) return;
+
+            string text;
+            int index = cbOrdered.Text.LastIndexOf("x");
+            var split = cbOrdered.Text.Split('-');
+
+            decimal quantity = decimal.Parse(cbOrdered.Text.Substring(index + 1));
+            text = split[0].Trim() + " - " + split[1].Trim() + " - x" + (quantity - 1);
+
+            //cbOrdered.Items.RemoveAt(cbOrdered.SelectedIndex);
+            //if(quantity -1 > 0)
+            //{
+            //    cbOrdered.Items.Add(text);
+            //}
+            // test
+
+            cbOrdered.Items[cbOrdered.SelectedIndex] = text;
+            if (quantity - 1 <= 0)
+            {
+                cbOrdered.Items.RemoveAt(cbOrdered.SelectedIndex);
+
+                if (cbOrdered.Items.Count > 0)
+                {
+                    cbOrdered.SelectedIndex = 0;
+                }
+            }
+
+
+
+            UpdateTotalPrice();
+        }
+
+        private void btnRemoveFoodAll_Click(object sender, EventArgs e)
+        {
+            if (cbOrdered.SelectedIndex == -1) return;
+
+            cbOrdered.Items.RemoveAt(cbOrdered.SelectedIndex);
+            UpdateTotalPrice();
+
+            if (cbOrdered.Items.Count > 0)
+            {
+                cbOrdered.SelectedIndex = 0;
+            }
+        }
+
     }
 }
 
