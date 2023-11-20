@@ -10,6 +10,7 @@
     using System.Data.SqlClient;
     using System.Drawing;
     using System.Linq;
+    using System.Security;
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -63,8 +64,15 @@
         }
         public async Task CreateStaffAccount()
         {
+
             string userName = txtUserName.Text.Trim();
             string defaultPassword = "Abc@123"; // You should handle password securely in a real application
+            
+            if (string.IsNullOrEmpty(userName))
+            {
+                MessageBox.Show("Vui lòng nhập username !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             try
             {
@@ -76,11 +84,27 @@
                 {
                     connection.Open();
 
-                    string insertUserQuery = "INSERT INTO Users (UserName, PasswordHash) VALUES (@UserName, @PasswordHash);";
+                    string insertUserQuery = "INSERT INTO Users (Id, UserName, NormalizedUserName, Email, PasswordHash, AccessFailedCount, Discriminator, EmailConfirmed, PhoneNumberConfirmed, TwoFactorEnabled, SecurityStamp, LockoutEnabled, LockoutEnd, NormalizedEmail, PhoneNumber, ConcurrencyStamp) " +
+                        "VALUES (@Id, @UserName, @NormalizedUserName, @Email, @PasswordHash, @AccessFailedCount, @Discriminator, @EmailConfirmed, @PhoneNumberConfirmed, @TwoFactorEnabled, @SecurityStamp, @LockoutEnabled, @LockoutEnd, @NormalizedEmail, @PhoneNumber, @ConcurrencyStamp);";
                     using (SqlCommand cmd = new SqlCommand(insertUserQuery, connection))
                     {
+                        cmd.Parameters.AddWithValue("@Id", Guid.NewGuid().ToString());
                         cmd.Parameters.AddWithValue("@UserName", userName);
+                        cmd.Parameters.AddWithValue("@NormalizedUserName", userName.ToUpper());
+                        cmd.Parameters.AddWithValue("@Email", userName + "@example.com");
                         cmd.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                        cmd.Parameters.AddWithValue("@AccessFailedCount", 0);
+                        cmd.Parameters.AddWithValue("@Discriminator", "ApplicationUser");
+                        cmd.Parameters.AddWithValue("@EmailConfirmed", true);
+                        cmd.Parameters.AddWithValue("@PhoneNumberConfirmed", true);
+                        cmd.Parameters.AddWithValue("@TwoFactorEnabled", false);
+                        cmd.Parameters.AddWithValue("@SecurityStamp", "");
+                        cmd.Parameters.AddWithValue("@LockoutEnabled", false);
+                        cmd.Parameters.AddWithValue("@LockoutEnd", "");
+                        cmd.Parameters.AddWithValue("@NormalizedEmail", (userName + "@example.com").ToUpper());
+                        cmd.Parameters.AddWithValue("@PhoneNumber", "");
+                        cmd.Parameters.AddWithValue("@ConcurrencyStamp", "");
+                        
 
                         cmd.ExecuteNonQuery();
                     }
@@ -94,26 +118,26 @@
                         string userId = cmd.ExecuteScalar()?.ToString();
 
                         // Add user to the Staff role
-                        if (!string.IsNullOrEmpty(userId))
-                        {
-                            AddUserToRole(userId, "Staff");
-                            MessageBox.Show("Staff account created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error creating staff account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        //if (!string.IsNullOrEmpty(userId))
+                        //{
+                        //    AddUserToRole(userId, "Staff");
+                        //    MessageBox.Show("Staff account created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //}
+                        //else
+                        //{
+                        //    MessageBox.Show("Error creating staff account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //}
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error creating staff account: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
 
-        private async Task AddUserToRole(string userId, string roleName)
+        private void AddUserToRole(string userId, string roleName)
         {
             using (SqlConnection connection = new SqlConnection(Globals.ConnectionString))
             {

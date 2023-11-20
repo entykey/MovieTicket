@@ -369,6 +369,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ucRoles.resx">
       <DependentUpon>ucRoles.cs</DependentUpon>
@@ -411,6 +412,7 @@
       <DependentUpon>DbModels.edmx</DependentUpon>
       <LastGenOutput>DbModels.cs</LastGenOutput>
     </Content>
+    <Content Include="Resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

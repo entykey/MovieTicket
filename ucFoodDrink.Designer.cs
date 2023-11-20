@@ -151,9 +151,9 @@
             this.lblControlName.Location = new System.Drawing.Point(40, 33);
             this.lblControlName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblControlName.Name = "lblControlName";
-            this.lblControlName.Size = new System.Drawing.Size(132, 48);
+            this.lblControlName.Size = new System.Drawing.Size(244, 48);
             this.lblControlName.TabIndex = 36;
-            this.lblControlName.Text = "Roles";
+            this.lblControlName.Text = "Đồ ăn thêm";
             // 
             // lblPrice
             // 

@@ -20,6 +20,8 @@ namespace MovieTicket
     using System.Drawing;
     using Image = System.Drawing.Image;
 
+
+
     public partial class ucBooking : UserControl
     {
         private static ucBooking _instance;
@@ -263,7 +265,7 @@ namespace MovieTicket
             }
         }
 
-        private void btnBookNow_Click(object sender, EventArgs e)
+        private async void btnBookNow_Click(object sender, EventArgs e)
         {
             if (selectedSeats.Count <= 0)
             {
@@ -294,8 +296,8 @@ namespace MovieTicket
                     string bookingId = Guid.NewGuid().ToString();
                     seatList = seatList.Substring(0, seatList.Length - 1);
 
-                    AddBooking(seatList, movieId, bookingId, showId);
-                    AddFoodDrinks(seatList, movieId, bookingId, showId);
+                    await AddBooking(seatList, movieId, bookingId, showId);
+                    await AddFoodDrinks(seatList, movieId, bookingId, showId);
 
                     // Reset total price
                     UpdateTotalPrice();
@@ -304,10 +306,34 @@ namespace MovieTicket
                     UpdateBookedSeats();
 
 
-                    // Xem có cần có food ordered không?
+
+                    // Generate PDF receipt
+                    rtxtPreview.Clear();
+                    StringBuilder receiptText = new StringBuilder();
+                    receiptText.AppendLine("******************************************");
+                    receiptText.AppendLine("**                CRV Cinema               **");
+                    receiptText.AppendLine("******************************************");
+                    receiptText.AppendLine("Ngày in vé: " + DateTime.Now + "\n");
+                    receiptText.AppendLine("Số ghế: " + seatList + "\n\n");
+                    
+
+                    // Loop through each row in the FoodDrink selected
+                    foreach (var cbItem in cbOrdered.Items)
+                    {
+                        string item = cbItem.ToString();
+                        receiptText.AppendLine(item);
+                    }
+
+                    receiptText.AppendLine("\nĐịa chỉ: 280 An Dương Vương, Q5, HCM");
+                    receiptText.AppendLine("Note: Quý khách vui lòng đến trước giờ chiếu khoảng 15 phút để ổn định chỗ ngồi!");
+
+                    // Set the generated text to the RichTextBox
+                    rtxtPreview.Text = receiptText.ToString();
+
+
+                    // Xem có cần có food ordered không? => clear
                     cbOrdered.Items.Clear();
                 }
-
 
                 // FoodDrinks
 
@@ -513,7 +539,7 @@ namespace MovieTicket
             UpdateTotalPrice();
         }
 
-        // helper method
+        #region helper methods
         private static string GetHash(string firstString, string secondString)
         {
             string combinedString = $"{firstString}{secondString}";
@@ -533,19 +559,12 @@ namespace MovieTicket
             }
         }
 
+        #endregion
+
         private void ucBooking_Load(object sender, EventArgs e)
         {
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblTotalPrice_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnFetch_Click(object sender, EventArgs e)
         {
@@ -566,11 +585,6 @@ namespace MovieTicket
                 // Reset trạng thái đặt chỗ
                 seat.IsBooked = false;
             }
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnFood_Click(object sender, EventArgs e)
@@ -699,5 +713,22 @@ namespace MovieTicket
                 }
             }
         }
+
+        #region printing
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString(rtxtPreview.Text, new Font("Microsoft Sans Serif", 18, FontStyle.Bold), Brushes.Black, new Point(10, 10));
+        }
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            // show the dialog
+            printPreviewDialog1.Document = printDocument1;
+            printPreviewDialog1.ShowDialog();
+        }
+
+        #endregion
+
+
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnFoodDrink = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnCreateStaffAccount = new System.Windows.Forms.Button();
             this.btnAssignRole = new System.Windows.Forms.Button();
@@ -41,10 +42,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.lblControlName = new System.Windows.Forms.Label();
-            this.btnFoodDrink = new System.Windows.Forms.Button();
+            this.lblWelcome = new System.Windows.Forms.Label();
+            this.pbLogo = new System.Windows.Forms.PictureBox();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             this.panelMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -66,6 +69,20 @@
             this.panelMenu.Size = new System.Drawing.Size(316, 1329);
             this.panelMenu.TabIndex = 0;
             // 
+            // btnFoodDrink
+            // 
+            this.btnFoodDrink.FlatAppearance.BorderSize = 0;
+            this.btnFoodDrink.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFoodDrink.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFoodDrink.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnFoodDrink.Location = new System.Drawing.Point(0, 382);
+            this.btnFoodDrink.Name = "btnFoodDrink";
+            this.btnFoodDrink.Size = new System.Drawing.Size(310, 58);
+            this.btnFoodDrink.TabIndex = 10;
+            this.btnFoodDrink.Text = "Food Drink";
+            this.btnFoodDrink.UseVisualStyleBackColor = true;
+            this.btnFoodDrink.Click += new System.EventHandler(this.btnFoodDrink_Click);
+            // 
             // btnLogout
             // 
             this.btnLogout.FlatAppearance.BorderSize = 0;
@@ -86,7 +103,7 @@
             this.btnCreateStaffAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreateStaffAccount.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreateStaffAccount.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnCreateStaffAccount.Location = new System.Drawing.Point(7, 508);
+            this.btnCreateStaffAccount.Location = new System.Drawing.Point(3, 574);
             this.btnCreateStaffAccount.Name = "btnCreateStaffAccount";
             this.btnCreateStaffAccount.Size = new System.Drawing.Size(310, 58);
             this.btnCreateStaffAccount.TabIndex = 8;
@@ -100,7 +117,7 @@
             this.btnAssignRole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAssignRole.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAssignRole.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnAssignRole.Location = new System.Drawing.Point(3, 444);
+            this.btnAssignRole.Location = new System.Drawing.Point(3, 510);
             this.btnAssignRole.Name = "btnAssignRole";
             this.btnAssignRole.Size = new System.Drawing.Size(310, 58);
             this.btnAssignRole.TabIndex = 7;
@@ -114,7 +131,7 @@
             this.btnRoles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRoles.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRoles.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnRoles.Location = new System.Drawing.Point(3, 382);
+            this.btnRoles.Location = new System.Drawing.Point(7, 446);
             this.btnRoles.Name = "btnRoles";
             this.btnRoles.Size = new System.Drawing.Size(310, 58);
             this.btnRoles.TabIndex = 6;
@@ -201,6 +218,8 @@
             // panelMain
             // 
             this.panelMain.AutoScroll = true;
+            this.panelMain.Controls.Add(this.pbLogo);
+            this.panelMain.Controls.Add(this.lblWelcome);
             this.panelMain.Controls.Add(this.lblControlName);
             this.panelMain.Location = new System.Drawing.Point(325, 15);
             this.panelMain.Margin = new System.Windows.Forms.Padding(6);
@@ -220,19 +239,25 @@
             this.lblControlName.TabIndex = 1;
             this.lblControlName.Text = "Dashboard";
             // 
-            // btnFoodDrink
+            // lblWelcome
             // 
-            this.btnFoodDrink.FlatAppearance.BorderSize = 0;
-            this.btnFoodDrink.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFoodDrink.Font = new System.Drawing.Font("Gill Sans Ultra Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFoodDrink.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnFoodDrink.Location = new System.Drawing.Point(6, 572);
-            this.btnFoodDrink.Name = "btnFoodDrink";
-            this.btnFoodDrink.Size = new System.Drawing.Size(310, 58);
-            this.btnFoodDrink.TabIndex = 10;
-            this.btnFoodDrink.Text = "Food Drink";
-            this.btnFoodDrink.UseVisualStyleBackColor = true;
-            this.btnFoodDrink.Click += new System.EventHandler(this.btnFoodDrink_Click);
+            this.lblWelcome.AutoSize = true;
+            this.lblWelcome.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcome.Location = new System.Drawing.Point(284, 251);
+            this.lblWelcome.Name = "lblWelcome";
+            this.lblWelcome.Size = new System.Drawing.Size(884, 44);
+            this.lblWelcome.TabIndex = 2;
+            this.lblWelcome.Text = "Chào mừng bạn trở lại hệ thống bán vé CRVCinema";
+            // 
+            // pbLogo
+            // 
+            this.pbLogo.Image = global::MovieTicket.Properties.Resources.logo;
+            this.pbLogo.Location = new System.Drawing.Point(596, 331);
+            this.pbLogo.Name = "pbLogo";
+            this.pbLogo.Size = new System.Drawing.Size(232, 209);
+            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbLogo.TabIndex = 3;
+            this.pbLogo.TabStop = false;
             // 
             // Home
             // 
@@ -249,6 +274,7 @@
             this.panelLogo.PerformLayout();
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -269,6 +295,8 @@
         private System.Windows.Forms.Button btnCreateStaffAccount;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button btnFoodDrink;
+        private System.Windows.Forms.Label lblWelcome;
+        private System.Windows.Forms.PictureBox pbLogo;
     }
 }
 
