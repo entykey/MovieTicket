@@ -62,9 +62,10 @@
 
             if (!string.IsNullOrEmpty(roleName))
             {
-                dbContext.Roles.Add(new Roles { Id = Guid.NewGuid().ToString(), Name = roleName });
+                dbContext.Roles.Add(new Roles { Id = Guid.NewGuid().ToString(), Name = roleName, NormalizedName = roleName.ToUpper() });
                 await dbContext.SaveChangesAsync();
                 await LoadRoles(); // Reload roles in the DataGridView
+                MessageBox.Show("Role đã được tạo thành công.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -86,18 +87,31 @@
 
                 // Re-fetch and update the DataGridView
                 await LoadRoles();
+                MessageBox.Show("Role đã được cập nhật thành công.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         public async Task DeleteRole()
         {
+
             // Delete the selected role from the database
             var selectedRole = dgvRoles.CurrentRow?.DataBoundItem as Roles;
 
             if (selectedRole != null)
             {
-                dbContext.Roles.Remove(selectedRole);
-                await dbContext.SaveChangesAsync();
-                await LoadRoles(); // Reload roles in the DataGridView
+                DialogResult result = MessageBox.Show("Bạn có chắc muốn xóa Role này?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    dbContext.Roles.Remove(selectedRole);
+                    await dbContext.SaveChangesAsync();
+                    await LoadRoles(); // Reload roles in the DataGridView
+                    btnAddRole.Enabled = true;
+                    txtRoleId.Text = "";
+                    txtRoleName.Text = "";
+                    btnUpdateRole.Enabled = false;
+                    btnDeleteRole.Enabled = false;
+                    MessageBox.Show("Role đã được xóa thành công.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
             {

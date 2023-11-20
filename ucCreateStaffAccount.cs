@@ -58,7 +58,14 @@
         public void BindDataUserToDataGv()
         {
             var result = from u in dbContext.Users.ToList()
-                         select u;
+                         select new
+                         {
+                             u.Id,
+                             u.UserName,
+                             u.Email,
+                             u.DateJoined,
+                             u.Discriminator
+                         };
 
             dgvUsers.DataSource = result.ToList();
         }
@@ -84,8 +91,8 @@
                 {
                     connection.Open();
 
-                    string insertUserQuery = "INSERT INTO Users (Id, UserName, NormalizedUserName, Email, PasswordHash, AccessFailedCount, Discriminator, EmailConfirmed, PhoneNumberConfirmed, TwoFactorEnabled, SecurityStamp, LockoutEnabled, LockoutEnd, NormalizedEmail, PhoneNumber, ConcurrencyStamp) " +
-                        "VALUES (@Id, @UserName, @NormalizedUserName, @Email, @PasswordHash, @AccessFailedCount, @Discriminator, @EmailConfirmed, @PhoneNumberConfirmed, @TwoFactorEnabled, @SecurityStamp, @LockoutEnabled, @LockoutEnd, @NormalizedEmail, @PhoneNumber, @ConcurrencyStamp);";
+                    string insertUserQuery = "INSERT INTO Users (Id, UserName, NormalizedUserName, Email, PasswordHash, AccessFailedCount, Discriminator, EmailConfirmed, PhoneNumberConfirmed, TwoFactorEnabled, SecurityStamp, LockoutEnabled, LockoutEnd, NormalizedEmail, PhoneNumber, ConcurrencyStamp, DateJoined) " +
+                        "VALUES (@Id, @UserName, @NormalizedUserName, @Email, @PasswordHash, @AccessFailedCount, @Discriminator, @EmailConfirmed, @PhoneNumberConfirmed, @TwoFactorEnabled, @SecurityStamp, @LockoutEnabled, @LockoutEnd, @NormalizedEmail, @PhoneNumber, @ConcurrencyStamp, @DateJoined);";
                     using (SqlCommand cmd = new SqlCommand(insertUserQuery, connection))
                     {
                         cmd.Parameters.AddWithValue("@Id", Guid.NewGuid().ToString());
@@ -104,30 +111,13 @@
                         cmd.Parameters.AddWithValue("@NormalizedEmail", (userName + "@example.com").ToUpper());
                         cmd.Parameters.AddWithValue("@PhoneNumber", "");
                         cmd.Parameters.AddWithValue("@ConcurrencyStamp", "");
-                        
+                        cmd.Parameters.AddWithValue("@DateJoined", DateTime.Now);
+
 
                         cmd.ExecuteNonQuery();
                     }
 
-                    // Get the newly created user's ID
-                    string getUserIdQuery = "SELECT Id FROM Users WHERE UserName = @UserName;";
-                    using (SqlCommand cmd = new SqlCommand(getUserIdQuery, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@UserName", userName);
-
-                        string userId = cmd.ExecuteScalar()?.ToString();
-
-                        // Add user to the Staff role
-                        //if (!string.IsNullOrEmpty(userId))
-                        //{
-                        //    AddUserToRole(userId, "Staff");
-                        //    MessageBox.Show("Staff account created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //}
-                        //else
-                        //{
-                        //    MessageBox.Show("Error creating staff account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //}
-                    }
+                    MessageBox.Show("Đã tạo tài khoản nhân viên thành công, đừng quên cấp quyền cho nhân viên!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -137,30 +127,38 @@
 
         }
 
-        private void AddUserToRole(string userId, string roleName)
+        private void DeleteUserById(string userId)
         {
-            using (SqlConnection connection = new SqlConnection(Globals.ConnectionString))
+            try
             {
-                connection.Open();
-
-                string insertUserRoleQuery = "INSERT INTO UserRoles (UserId, RoleId) VALUES (@UserId, @RoleId);";
-                using (SqlCommand cmd = new SqlCommand(insertUserRoleQuery, connection))
+                using (SqlConnection connection = new SqlConnection(Globals.ConnectionString))
                 {
-                    // Retrieve RoleId by role name
-                    string getRoleIdQuery = "SELECT Id FROM Roles WHERE Name = @RoleName;";
-                    cmd.Parameters.AddWithValue("@RoleName", roleName);
-                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    connection.Open();
 
-                    string roleId = cmd.ExecuteScalar()?.ToString();
+                    // Consider using a parameterized query to prevent SQL injection
+                    string deleteUserQuery = "DELETE FROM Users WHERE Id = @UserId";
 
-                    if (!string.IsNullOrEmpty(roleId))
+                    using (SqlCommand cmd = new SqlCommand(deleteUserQuery, connection))
                     {
-                        cmd.CommandText = insertUserRoleQuery;
-                        cmd.Parameters.AddWithValue("@RoleId", roleId);
+                        // Use parameters to prevent SQL injection
+                        cmd.Parameters.AddWithValue("@UserId", userId);
 
-                        cmd.ExecuteNonQuery();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Tài khoản đã được xóa thành công.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Không tìm thấy tài khoản để xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting user: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -168,6 +166,64 @@
         private async void btnCreateStaff_Click(object sender, EventArgs e)
         {
             await CreateStaffAccount();
+        }
+
+        private void ucCreateStaffAccount_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            string selectedUserId = GetSelectedUserId();
+
+            if (selectedUserId != null)
+            {
+                DialogResult result = MessageBox.Show("Bạn có chắc muốn xóa tài khoản này?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    DeleteUserById(selectedUserId);
+                    BindDataUserToDataGv(); // Refresh DataGridView after deletion
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một tài khoản để xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        // helper
+        private string GetSelectedUserId()
+        {
+            if (dgvUsers.SelectedRows.Count > 0)
+            {
+                // Assuming the 'Id' column is the first column in the DataGridView
+                return dgvUsers.SelectedRows[0].Cells["Id"].Value.ToString();
+            }
+
+            return null;
+        }
+
+        private void dgvUsers_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == -1 || e.ColumnIndex > 13)  // ignore header row and any column
+                return;
+
+            txtUserName.Text = dgvUsers.Rows[e.RowIndex].Cells[1].Value.ToString();
+
+            
+            this.btnCreateStaff.Enabled = false;
+            //this.btnUpdate.Enabled = true;
+            this.btnDelete.Enabled = true;
+            this.btnCancelSelection.Enabled = true;
+        }
+
+        private void btnCancelSelection_Click(object sender, EventArgs e)
+        {
+            btnCreateStaff.Enabled = true; 
+            txtUserName.Text = "";
+            btnDelete.Enabled = false;
         }
     }
 }
