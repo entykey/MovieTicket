@@ -165,7 +165,7 @@
             this.Controls.Add(this.dgvRoles);
             this.Controls.Add(this.lblControlName);
             this.Name = "ucRoles";
-            this.Size = new System.Drawing.Size(1316, 917);
+            this.Size = new System.Drawing.Size(1418, 1099);
             this.Load += new System.EventHandler(this.ucRoles_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoles)).EndInit();
             this.ResumeLayout(false);

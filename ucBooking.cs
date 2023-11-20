@@ -13,10 +13,12 @@ namespace MovieTicket
     using System.Windows.Forms;
     using System.Security.Cryptography;
     using System.Text;
+
     using static System.Windows.Forms.VisualStyles.VisualStyleElement;
     using Button = System.Windows.Forms.Button;
     using static System.Net.Mime.MediaTypeNames;
     using System.Reflection;
+
 
     public partial class ucBooking : UserControl
     {
@@ -55,13 +57,18 @@ namespace MovieTicket
             InitializeComponent();
             InitializeSeatButtons();
             LoadMovies();
+
             LoadFoods();
+
             InitializeComboBox();
         }
 
+        private void ucBooking_Load(object sender, EventArgs e)
+        {
+        }
 
 
-        // Check ở đây -----
+        // Check ở đây --
         private void InitializeSeatButtons()
         {
             tableLayoutPanel1.RowCount = Rows;
@@ -74,8 +81,8 @@ namespace MovieTicket
                     Button seatButton = new Button
                     {
                         Text = $"{(char)('A' + row)}-{col + 1}",
-                        Width = 40,
-                        Height = 40,
+                        Width = 36,
+                        Height = 36,
                         Tag = new Seat(row, col),
                         BackColor = System.Drawing.Color.White
                     };
@@ -89,7 +96,8 @@ namespace MovieTicket
             }
         }
 
-        // fake data for Movie dbset
+        #region database operations
+        // load db data for Movie dbset
         private void LoadMovies()
         {
             cmbMovies.Items.Clear();
@@ -105,6 +113,7 @@ namespace MovieTicket
             }
         }
 
+
         private void LoadFoods()
         {
             cbFood.Items.Clear();
@@ -117,6 +126,7 @@ namespace MovieTicket
             {
                 foodData[item.Name + " - " + item.Price] = item.FoodDrinkId;
                 cbFood.Items.Add(item.Name + " - " + item.Price);
+
             }
         }
 
@@ -141,6 +151,8 @@ namespace MovieTicket
 
             UpdateBookedSeats();
         }
+        #endregion
+
 
         private void SeatButton_Click(object sender, EventArgs e)
         {
@@ -190,6 +202,30 @@ namespace MovieTicket
             }
 
             UpdateTotalPrice();
+        }
+
+        private void nudQuantity_ValueChanged(object sender, EventArgs e)
+        {
+            // Get the selected item from the ComboBox
+            string selectedFoodDrinkName = cmbFoodDrink.SelectedItem?.ToString();
+
+            // Check if a valid item is selected
+            if (!string.IsNullOrEmpty(selectedFoodDrinkName))
+            {
+                // Find the corresponding FoodDrink in the database
+                var selectedFoodDrink = dbContext.FoodDrinks.FirstOrDefault(fd => fd.Name == selectedFoodDrinkName);
+
+                // Check if the FoodDrink is found
+                if (selectedFoodDrink != null)
+                {
+                    // Calculate the total price based on quantity
+                    decimal quantity = nudQuantity.Value;
+                    decimal totalPrice = quantity * selectedFoodDrink.Price;
+
+                    // Display the calculated price in the txtPrice TextBox
+                    txtPrice.Text = totalPrice.ToString();
+                }
+            }
         }
 
         private void UpdateTotalPrice()
@@ -385,6 +421,7 @@ namespace MovieTicket
             selectedSeats.Clear();
         }
 
+        #region comboboxes
         private void cbShow_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Reset
@@ -447,6 +484,7 @@ namespace MovieTicket
 
         private void cmbMovies_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             // Reset
             lblBookedSeats.Text = "Booked seats (ghế): ";
             lblTotalPrice.Text = $"Total Price: ";
@@ -461,6 +499,7 @@ namespace MovieTicket
                 // Reset trạng thái đặt chỗ
                 seat.IsBooked = false;
             }
+
 
 
             cbShow.Items.Clear();
@@ -510,7 +549,48 @@ namespace MovieTicket
             UpdateTotalPrice();
         }
 
-        // helper method
+        private void cmbFoodDrink_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the selected item from the ComboBox
+            string selectedFoodDrinkName = cmbFoodDrink.SelectedItem?.ToString();
+
+            // Check if a valid item is selected
+            if (!string.IsNullOrEmpty(selectedFoodDrinkName))
+            {
+                // Find the corresponding FoodDrink in the database
+                var selectedFoodDrink = dbContext.FoodDrinks.FirstOrDefault(fd => fd.Name == selectedFoodDrinkName);
+                txtPrice.Text = selectedFoodDrink.Price.ToString();
+                nudQuantity.Value = 1;
+
+                // Check if the FoodDrink is found
+                if (selectedFoodDrink != null)
+                {
+                    // Display the image in the PictureBox
+                    try
+                    {
+                        // Check if the image path is not empty
+                        if (!string.IsNullOrEmpty(selectedFoodDrink.ImagePath))
+                        {
+                            // Load and display the image in the PictureBox
+                            pbFoodDrink.Image = Image.FromFile(selectedFoodDrink.ImagePath);
+                        }
+                        else
+                        {
+                            // Clear the PictureBox if the image path is empty
+                            pbFoodDrink.Image = null;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        #endregion
+
+
+        #region helper methods
         private static string GetHash(string firstString, string secondString)
         {
             string combinedString = $"{firstString}{secondString}";
@@ -529,6 +609,8 @@ namespace MovieTicket
                 return stringBuilder.ToString();
             }
         }
+        #endregion
+
 
         private void ucBooking_Load(object sender, EventArgs e)
         {
@@ -659,6 +741,7 @@ namespace MovieTicket
                 cbOrdered.SelectedIndex = 0;
             }
         }
+
     }
 }
 

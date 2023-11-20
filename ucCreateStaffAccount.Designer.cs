@@ -103,7 +103,7 @@
             this.Controls.Add(this.btnCreateStaff);
             this.Controls.Add(this.lblControlName);
             this.Name = "ucCreateStaffAccount";
-            this.Size = new System.Drawing.Size(1316, 917);
+            this.Size = new System.Drawing.Size(1418, 1099);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

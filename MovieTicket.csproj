@@ -295,6 +295,12 @@
     <Compile Include="ucCreateStaffAccount.Designer.cs">
       <DependentUpon>ucCreateStaffAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucFoodDrink.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucFoodDrink.Designer.cs">
+      <DependentUpon>ucFoodDrink.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucMovies.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -341,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucCreateStaffAccount.resx">
       <DependentUpon>ucCreateStaffAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucFoodDrink.resx">
+      <DependentUpon>ucFoodDrink.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucMovies.resx">
       <DependentUpon>ucMovies.cs</DependentUpon>
