@@ -88,7 +88,8 @@ namespace MovieTicket
             }
         }
 
-        // fake data for Movie dbset
+        #region database operations
+        // load db data for Movie dbset
         private void LoadMovies()
         {
             var result = from m in dbContext.Movies
@@ -132,6 +133,8 @@ namespace MovieTicket
 
             UpdateBookedSeats();
         }
+        #endregion
+
 
         private void SeatButton_Click(object sender, EventArgs e)
         {
