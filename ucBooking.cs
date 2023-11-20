@@ -346,16 +346,16 @@ namespace MovieTicket
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            string selectedMovieKey = cmbMovies.SelectedItem.ToString();
-            string movieId = movieData[selectedMovieKey];
+            //string selectedMovieKey = cmbMovies.SelectedItem.ToString();
+            //string movieId = movieData[selectedMovieKey];
 
             cbOrdered.Items.Clear();
 
 
-            if (cbShow.SelectedItem != null)
-            {
-                String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
-            }
+            //if (cbShow.SelectedItem != null)
+            //{
+            //    String showId = showData[GetHash(cbShow.SelectedItem.ToString(), movieId)];
+            //}
 
 
 
@@ -401,14 +401,6 @@ namespace MovieTicket
                     }
                 }
             }
-
-            //if (lblBookedSeats.Text.EndsWith(", "))
-            //{
-            //    lblBookedSeats.Text = lblBookedSeats.Text.Substring(0, lblBookedSeats.Text.Length - ", ".Length);
-            //    lblBookedSeats.Text = lblBookedSeats.Text + " ";
-            //}
-
-
 
             selectedSeats.Clear();
         }
@@ -569,6 +561,7 @@ namespace MovieTicket
         private void btnFetch_Click(object sender, EventArgs e)
         {
             LoadMovies();
+            LoadFoods();
             cbShow.Items.Clear();
             cbOrdered.Items.Clear();
 

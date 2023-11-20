@@ -47,111 +47,123 @@
             this.lblControlName.AutoSize = true;
             this.lblControlName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblControlName.ForeColor = System.Drawing.Color.Indigo;
-            this.lblControlName.Location = new System.Drawing.Point(40, 33);
-            this.lblControlName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblControlName.Location = new System.Drawing.Point(27, 21);
+            this.lblControlName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblControlName.Name = "lblControlName";
-            this.lblControlName.Size = new System.Drawing.Size(132, 48);
+            this.lblControlName.Size = new System.Drawing.Size(89, 31);
             this.lblControlName.TabIndex = 3;
             this.lblControlName.Text = "Roles";
             // 
             // dgvRoles
             // 
             this.dgvRoles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRoles.Location = new System.Drawing.Point(48, 366);
+            this.dgvRoles.Location = new System.Drawing.Point(32, 234);
+            this.dgvRoles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvRoles.Name = "dgvRoles";
+            this.dgvRoles.ReadOnly = true;
             this.dgvRoles.RowHeadersWidth = 82;
             this.dgvRoles.RowTemplate.Height = 33;
-            this.dgvRoles.Size = new System.Drawing.Size(1163, 338);
+            this.dgvRoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRoles.Size = new System.Drawing.Size(775, 216);
             this.dgvRoles.TabIndex = 4;
             this.dgvRoles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGv_CellClick);
             // 
             // btnUpdateRole
             // 
-            this.btnUpdateRole.Location = new System.Drawing.Point(361, 96);
+            this.btnUpdateRole.Location = new System.Drawing.Point(241, 61);
+            this.btnUpdateRole.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnUpdateRole.Name = "btnUpdateRole";
-            this.btnUpdateRole.Size = new System.Drawing.Size(152, 62);
-            this.btnUpdateRole.TabIndex = 31;
+            this.btnUpdateRole.Size = new System.Drawing.Size(101, 40);
+            this.btnUpdateRole.TabIndex = 34;
             this.btnUpdateRole.Text = "Update";
             this.btnUpdateRole.UseVisualStyleBackColor = true;
             this.btnUpdateRole.Click += new System.EventHandler(this.btnUpdateRole_Click);
             // 
             // btnCancelSelection
             // 
-            this.btnCancelSelection.Location = new System.Drawing.Point(673, 96);
+            this.btnCancelSelection.Location = new System.Drawing.Point(449, 61);
+            this.btnCancelSelection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCancelSelection.Name = "btnCancelSelection";
-            this.btnCancelSelection.Size = new System.Drawing.Size(198, 62);
-            this.btnCancelSelection.TabIndex = 30;
+            this.btnCancelSelection.Size = new System.Drawing.Size(132, 40);
+            this.btnCancelSelection.TabIndex = 36;
             this.btnCancelSelection.Text = "Cancel selection";
             this.btnCancelSelection.UseVisualStyleBackColor = true;
             this.btnCancelSelection.Click += new System.EventHandler(this.btnCancelSelection_Click);
             // 
             // btnDeleteRole
             // 
-            this.btnDeleteRole.Location = new System.Drawing.Point(516, 96);
+            this.btnDeleteRole.Location = new System.Drawing.Point(344, 61);
+            this.btnDeleteRole.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnDeleteRole.Name = "btnDeleteRole";
-            this.btnDeleteRole.Size = new System.Drawing.Size(152, 62);
-            this.btnDeleteRole.TabIndex = 29;
+            this.btnDeleteRole.Size = new System.Drawing.Size(101, 40);
+            this.btnDeleteRole.TabIndex = 35;
             this.btnDeleteRole.Text = "Delete";
             this.btnDeleteRole.UseVisualStyleBackColor = true;
             this.btnDeleteRole.Click += new System.EventHandler(this.btnDeleteRole_Click);
             // 
             // btnAddRole
             // 
-            this.btnAddRole.Location = new System.Drawing.Point(204, 96);
+            this.btnAddRole.Location = new System.Drawing.Point(136, 61);
+            this.btnAddRole.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddRole.Name = "btnAddRole";
-            this.btnAddRole.Size = new System.Drawing.Size(152, 62);
-            this.btnAddRole.TabIndex = 28;
+            this.btnAddRole.Size = new System.Drawing.Size(101, 40);
+            this.btnAddRole.TabIndex = 33;
             this.btnAddRole.Text = "Add";
             this.btnAddRole.UseVisualStyleBackColor = true;
             this.btnAddRole.Click += new System.EventHandler(this.btnAddRole_Click);
             // 
             // btnFetchData
             // 
-            this.btnFetchData.Location = new System.Drawing.Point(48, 96);
+            this.btnFetchData.Location = new System.Drawing.Point(32, 61);
+            this.btnFetchData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnFetchData.Name = "btnFetchData";
-            this.btnFetchData.Size = new System.Drawing.Size(152, 62);
-            this.btnFetchData.TabIndex = 27;
+            this.btnFetchData.Size = new System.Drawing.Size(101, 40);
+            this.btnFetchData.TabIndex = 37;
             this.btnFetchData.Text = "Fetch data";
             this.btnFetchData.UseVisualStyleBackColor = true;
             // 
             // lblRoleName
             // 
             this.lblRoleName.AutoSize = true;
-            this.lblRoleName.Location = new System.Drawing.Point(48, 235);
+            this.lblRoleName.Location = new System.Drawing.Point(32, 150);
+            this.lblRoleName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRoleName.Name = "lblRoleName";
-            this.lblRoleName.Size = new System.Drawing.Size(112, 25);
+            this.lblRoleName.Size = new System.Drawing.Size(73, 16);
             this.lblRoleName.TabIndex = 33;
             this.lblRoleName.Text = "RoleName";
             // 
             // txtRoleName
             // 
             this.txtRoleName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRoleName.Location = new System.Drawing.Point(200, 223);
+            this.txtRoleName.Location = new System.Drawing.Point(133, 143);
+            this.txtRoleName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtRoleName.Name = "txtRoleName";
-            this.txtRoleName.Size = new System.Drawing.Size(405, 38);
+            this.txtRoleName.Size = new System.Drawing.Size(271, 27);
             this.txtRoleName.TabIndex = 32;
             // 
             // lblMovieId
             // 
             this.lblMovieId.AutoSize = true;
-            this.lblMovieId.Location = new System.Drawing.Point(48, 192);
+            this.lblMovieId.Location = new System.Drawing.Point(32, 123);
+            this.lblMovieId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMovieId.Name = "lblMovieId";
-            this.lblMovieId.Size = new System.Drawing.Size(73, 25);
+            this.lblMovieId.Size = new System.Drawing.Size(47, 16);
             this.lblMovieId.TabIndex = 35;
             this.lblMovieId.Text = "RoleId";
             // 
             // txtRoleId
             // 
             this.txtRoleId.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRoleId.Location = new System.Drawing.Point(200, 179);
+            this.txtRoleId.Location = new System.Drawing.Point(133, 115);
+            this.txtRoleId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtRoleId.Name = "txtRoleId";
             this.txtRoleId.ReadOnly = true;
-            this.txtRoleId.Size = new System.Drawing.Size(405, 38);
+            this.txtRoleId.Size = new System.Drawing.Size(271, 27);
             this.txtRoleId.TabIndex = 34;
             // 
             // ucRoles
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lblMovieId);
             this.Controls.Add(this.txtRoleId);
@@ -164,8 +176,9 @@
             this.Controls.Add(this.btnFetchData);
             this.Controls.Add(this.dgvRoles);
             this.Controls.Add(this.lblControlName);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ucRoles";
-            this.Size = new System.Drawing.Size(1418, 1099);
+            this.Size = new System.Drawing.Size(945, 703);
             this.Load += new System.EventHandler(this.ucRoles_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoles)).EndInit();
             this.ResumeLayout(false);
