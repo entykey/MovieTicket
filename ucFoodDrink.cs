@@ -202,10 +202,12 @@
         private async void btnFetchData_Click(object sender, EventArgs e)
         {
             await LoadItem();
+            btnCancelSelection_Click(sender, e);
         }
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             await AddItem();
+            btnCancelSelection_Click(sender, e);
         }
 
         private async void btnUpdate_Click(object sender, EventArgs e)
@@ -216,6 +218,7 @@
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             await DeleteItem();
+            btnCancelSelection_Click(sender, e);
         }
         private void btnUpload_Click(object sender, EventArgs e)
         {
@@ -258,6 +261,6 @@
 
         #endregion
 
-        
+
     }
 }
