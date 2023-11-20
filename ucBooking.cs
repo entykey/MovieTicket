@@ -60,7 +60,7 @@ namespace MovieTicket
         }
 
 
-        // Check ở đây -----
+        // Check ở đây --
         private void InitializeSeatButtons()
         {
             tableLayoutPanel1.RowCount = Rows;
