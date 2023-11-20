@@ -280,8 +280,6 @@
       <DependentUpon>DbModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppContext.cs" />
-    <Compile Include="Models\FoodDrink.cs" />
-    <Compile Include="Models\OrderedItem.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="ucAssignRole.cs">
       <SubType>UserControl</SubType>
