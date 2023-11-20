@@ -629,6 +629,7 @@ namespace MovieTicket
             //{
             //    cbOrdered.Items.Add(text);
             //}
+            // test
 
             cbOrdered.Items[cbOrdered.SelectedIndex] = text;
             if (quantity - 1 <= 0)
