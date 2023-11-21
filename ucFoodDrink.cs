@@ -116,16 +116,38 @@
                     Directory.CreateDirectory(folderPath);
                 }
 
-                // Generate a unique file name
-                string fileName = Path.Combine(folderPath, Guid.NewGuid().ToString() + ".jpg");
 
-                // Save the image to the specified path
-                pbFoodDrink.Image.Save(fileName, ImageFormat.Jpeg);
+                if (pbFoodDrink.Image != null)
+                {
+                    // Generate a unique file name
+                    string fileName = Path.Combine(folderPath, Guid.NewGuid().ToString() + ".jpg");
 
-                // Save the item to the database with the file path
-                dbContext.FoodDrinks.Add(new FoodDrinks { FoodDrinkId = Guid.NewGuid().ToString(), Name = itemName, ImagePath = fileName, Price = price });
-                await dbContext.SaveChangesAsync();
-                await LoadItem(); // Reload items in the DataGridView
+                    // Save the image to the specified path
+                    pbFoodDrink.Image.Save(fileName, ImageFormat.Jpeg);
+
+                    // Save the item to the database with the file path
+                    dbContext.FoodDrinks.Add(new FoodDrinks { FoodDrinkId = Guid.NewGuid().ToString(), Name = itemName, ImagePath = fileName, Price = price });
+                    await dbContext.SaveChangesAsync();
+                    await LoadItem(); // Reload items in the DataGridView
+                }
+                else
+                {
+                    // Handle the case when no image is selected
+                    dbContext.FoodDrinks.Add(new FoodDrinks { FoodDrinkId = Guid.NewGuid().ToString(), Name = itemName, Price = price });
+                    await dbContext.SaveChangesAsync();
+                    await LoadItem(); // Reload items in the DataGridView
+                }
+
+                //// Generate a unique file name
+                //string fileName = Path.Combine(folderPath, Guid.NewGuid().ToString() + ".jpg");
+
+                //// Save the image to the specified path
+                //pbFoodDrink.Image.Save(fileName, ImageFormat.Jpeg);
+
+                //// Save the item to the database with the file path
+                //dbContext.FoodDrinks.Add(new FoodDrinks { FoodDrinkId = Guid.NewGuid().ToString(), Name = itemName, ImagePath = fileName, Price = price });
+                //await dbContext.SaveChangesAsync();
+                //await LoadItem(); // Reload items in the DataGridView
             }
             else
             {
